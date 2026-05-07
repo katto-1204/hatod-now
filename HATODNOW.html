@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HatodNow — Fast Delivery in Davao City</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0A0A0A;
+  --bg2:#111111;
+  --bg3:#161616;
+  --surface:#1A1A1A;
+  --surface2:#222222;
+  --border:rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.12);
+  --orange:#FF6B1A;
+  --orange-mid:#F97316;
+  --orange-dark:#EA580C;
+  --orange-dim:rgba(255,107,26,.12);
+  --orange-glow:rgba(255,107,26,.25);
+  --white:#FFFFFF;
+  --off:#F0EDE8;
+  --gray:#888888;
+  --gray2:#555555;
+  --gray3:#333333;
+  --text:#E8E6E2;
+  --text2:#AAAAAA;
+  --sh-orange:0 8px 40px rgba(255,107,26,.3);
+  --sh-card:0 1px 0 rgba(255,255,255,.05),0 20px 60px rgba(0,0,0,.5);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;cursor:default;opacity:0;transition:opacity .6s ease;}
+body.page-ready{opacity:1;}
+body.page-exit{opacity:0;}
+
+/* ── CUSTOM CURSOR ── */
+.cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--orange);pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform .1s,width .3s,height .3s,opacity .3s;mix-blend-mode:screen;}
+.cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,107,26,.4);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform .12s ease-out,width .3s,height .3s,opacity .3s;}
+.cursor.expand{width:20px;height:20px;opacity:.5;}
+.cursor-ring.expand{width:56px;height:56px;border-color:rgba(255,107,26,.2);}
+
+/* ── SPLASH ── */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .8s ease,clip-path .8s cubic-bezier(.77,0,.18,1);
+  clip-path:inset(0 0 0 0);
+}
+#splash.hide{opacity:0;clip-path:inset(0 0 100% 0);pointer-events:none;}
+.splash-canvas{position:absolute;inset:0;}
+.splash-inner{position:relative;z-index:2;text-align:center;}
+.splash-word{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(60px,12vw,120px);
+  font-weight:900;font-style:italic;
+  color:white;letter-spacing:-2px;line-height:.95;
+  display:block;overflow:hidden;
+}
+.splash-word span{display:inline-block;transform:translateY(110%);animation:word-rise .7s cubic-bezier(.22,.68,0,1.1) forwards;}
+.splash-word:nth-child(1) span{animation-delay:.1s;}
+.splash-word:nth-child(2) span{animation-delay:.25s;color:var(--orange);}
+@keyframes word-rise{to{transform:translateY(0);}}
+.splash-sub{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;font-weight:600;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gray);margin-top:20px;
+  opacity:0;animation:fade-in .6s .6s ease forwards;
+}
+@keyframes fade-in{to{opacity:1;}}
+.splash-line{width:0;height:2px;background:linear-gradient(90deg,var(--orange),transparent);margin:28px auto 0;animation:line-grow 1.4s .5s ease forwards;}
+@keyframes line-grow{to{width:200px;}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:0 5%;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-color:var(--border);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-mark{
+  width:34px;height:34px;border-radius:8px;
+  background:var(--orange);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.nav-logo-text{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22px;font-weight:800;font-style:italic;
+  color:var(--white);letter-spacing:-.5px;
+}
+.nav-logo-text em{color:var(--orange);font-style:inherit;}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--gray);text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--orange);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-ghost{
+  background:none;border:1px solid var(--border2);border-radius:6px;
+  padding:9px 20px;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+.btn-nav{
+  background:var(--orange);color:white;border:none;border-radius:6px;
+  padding:10px 22px;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;transition:all .25s;box-shadow:var(--sh-orange);
+}
+.btn-nav:hover{background:var(--orange-dark);transform:translateY(-1px);}
+
+/* ── PARALLAX HERO ── */
+.hero{
+  min-height:100vh;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;
+  padding:100px 5% 80px;
+}
+.parallax-bg{
+  position:absolute;inset:-20%;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%,rgba(255,107,26,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 80% at 10% 80%,rgba(255,107,26,.04) 0%,transparent 60%),
+    var(--bg);
+  will-change:transform;
+}
+.parallax-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:60px 60px;
+  will-change:transform;
+}
+.parallax-orb-1{
+  position:absolute;top:10%;right:5%;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,26,.12) 0%,transparent 70%);
+  will-change:transform;filter:blur(40px);
+}
+.parallax-orb-2{
+  position:absolute;bottom:5%;left:0%;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,26,.06) 0%,transparent 70%);
+  will-change:transform;filter:blur(60px);
+}
+.hero-inner{
+  max-width:1280px;width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1fr 440px;gap:80px;align-items:center;
+  position:relative;z-index:2;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,107,26,.08);border:1px solid rgba(255,107,26,.2);
+  border-radius:4px;padding:6px 14px;margin-bottom:24px;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pulse 1.6s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.6);}}
+.eyebrow-text{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--orange);
+}
+.hero h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(62px,8vw,110px);
+  line-height:.92;font-weight:900;font-style:italic;
+  color:var(--white);letter-spacing:-2px;
+  margin-bottom:28px;
+}
+.hero h1 .line-wrap{overflow:hidden;display:block;}
+.hero h1 .line{display:block;transform:translateY(110%);animation:line-rise .8s cubic-bezier(.22,.68,0,1.1) forwards;}
+.hero h1 .line:nth-child(1){animation-delay:.6s;}
+.hero h1 .line:nth-child(2){animation-delay:.75s;}
+.hero h1 .line:nth-child(3){animation-delay:.9s;}
+.hero h1 .hl{color:var(--orange);}
+@keyframes line-rise{to{transform:translateY(0);}}
+.hero-sub{
+  font-size:17px;color:var(--text2);margin-bottom:40px;
+  max-width:460px;line-height:1.75;
+  opacity:0;animation:fade-in .8s 1.1s ease forwards;
+}
+.hero-btns{
+  display:flex;gap:12px;flex-wrap:wrap;
+  opacity:0;animation:fade-in .8s 1.25s ease forwards;
+}
+.btn-primary{
+  background:var(--orange);color:white;border:none;border-radius:6px;
+  padding:16px 34px;
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  transition:all .25s;box-shadow:var(--sh-orange);
+}
+.btn-primary:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 16px 50px rgba(255,107,26,.4);}
+.btn-outline{
+  background:transparent;color:var(--text);border:1px solid var(--border2);border-radius:6px;
+  padding:16px 34px;
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  transition:all .25s;
+}
+.btn-outline:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px);}
+.hero-trust{
+  display:flex;align-items:center;gap:14px;margin-top:32px;
+  opacity:0;animation:fade-in .8s 1.4s ease forwards;
+}
+.trust-avatars{display:flex;}
+.trust-avatars span{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid var(--bg);
+  background:linear-gradient(135deg,var(--orange),var(--orange-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:800;color:white;margin-left:-6px;
+}
+.trust-avatars span:first-child{margin-left:0;}
+.trust-text{font-size:13px;color:var(--gray);}
+.trust-text strong{color:var(--text);}
+
+/* HERO CARD */
+.hero-visual{position:relative;opacity:0;animation:fade-in .9s 1s ease forwards;}
+.hv-badge{
+  position:absolute;background:var(--surface);border:1px solid var(--border2);
+  border-radius:10px;box-shadow:var(--sh-card);
+  padding:10px 14px;display:flex;align-items:center;gap:10px;z-index:4;
+  animation:float-anim 4s ease-in-out infinite;
+}
+.hv-badge:nth-child(2){animation-delay:-2.2s;}
+.hv-badge-1{top:-14px;right:-20px;}
+.hv-badge-2{bottom:60px;left:-28px;}
+.hv-bi{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hv-bi-o{background:var(--orange-dim);}
+.hv-val{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--white);}
+.hv-sub{font-size:11px;color:var(--gray);margin-top:1px;}
+@keyframes float-anim{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.app-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;box-shadow:var(--sh-card);overflow:hidden;
+  animation:float-anim 5.5s ease-in-out infinite;
+}
+.ac-header{
+  background:linear-gradient(135deg,#111,#1a1a1a);
+  padding:16px 18px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.ac-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;font-style:italic;letter-spacing:.5px;color:var(--text);display:flex;align-items:center;gap:8px;}
+.ac-pill{
+  background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);
+  border-radius:4px;padding:3px 10px;
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  color:#4ADE80;display:flex;align-items:center;gap:5px;
+}
+.ac-dot{width:5px;height:5px;border-radius:50%;background:#4ADE80;animation:pulse 1.2s ease-in-out infinite;}
+.map-area{
+  background:linear-gradient(160deg,#111,#161616);
+  height:155px;position:relative;overflow:hidden;
+}
+.map-grid-dark{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,107,26,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,26,.05) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.route-line{position:absolute;top:50%;left:32%;right:18%;height:1px;background:linear-gradient(90deg,var(--orange),rgba(255,107,26,.2));transform:rotate(-10deg);transform-origin:left;}
+.rider-pin{
+  position:absolute;top:50%;left:42%;transform:translate(-50%,-50%);
+  width:38px;height:38px;border-radius:50%;
+  background:var(--orange);border:2px solid var(--bg);
+  box-shadow:0 0 20px rgba(255,107,26,.5);
+  display:flex;align-items:center;justify-content:center;z-index:2;
+  animation:rider-move 3.5s ease-in-out infinite;
+}
+@keyframes rider-move{0%,100%{left:36%;}50%{left:52%;}}
+.dest-pin{
+  position:absolute;top:28%;right:16%;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--surface2);border:2px solid var(--orange);
+  display:flex;align-items:center;justify-content:center;z-index:2;
+  box-shadow:0 0 12px rgba(255,107,26,.3);
+}
+.eta-bubble{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:4px;padding:6px 14px;
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.3px;
+  color:var(--text);display:flex;align-items:center;gap:7px;white-space:nowrap;
+}
+.eta-o{color:var(--orange);}
+.t-steps{padding:12px 16px;}
+.t-step{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.t-step:last-child{border:none;}
+.t-ico{width:28px;height:28px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.t-done{background:rgba(74,222,128,.08);}
+.t-active{background:rgba(255,107,26,.1);}
+.t-pend{background:var(--surface2);}
+.t-lbl{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--text);flex:1;letter-spacing:.3px;}
+.t-lbl.muted{color:var(--gray2);}
+.t-sub-txt{font-size:10px;color:var(--gray2);margin-top:1px;}
+.t-time{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--gray);}
+.t-time.active{color:var(--orange);}
+
+/* ── MARQUEE ── */
+.marquee-wrap{
+  background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:14px 0;overflow:hidden;
+}
+.marquee-track{display:flex;width:max-content;animation:marquee 30s linear infinite;}
+.marquee-track:hover{animation-play-state:paused;}
+.marquee-item{
+  display:flex;align-items:center;gap:10px;padding:0 30px;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;font-style:italic;
+  letter-spacing:.5px;text-transform:uppercase;color:var(--gray2);
+  border-right:1px solid var(--border);white-space:nowrap;
+}
+.marquee-item svg{flex-shrink:0;color:var(--orange);}
+.marquee-item:hover{color:var(--orange);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── SECTION COMMONS ── */
+.sec{padding:100px 5%;}
+.sec-inner{max-width:1280px;margin:0 auto;}
+.sec-label{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--orange-dim);border:1px solid rgba(255,107,26,.2);
+  border-radius:4px;padding:5px 12px;margin-bottom:18px;
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--orange);
+}
+.sec-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(42px,5vw,72px);font-weight:900;font-style:italic;
+  color:var(--white);letter-spacing:-1.5px;line-height:.95;margin-bottom:18px;
+}
+.sec-sub{font-size:16px;color:var(--text2);max-width:500px;line-height:1.75;}
+.center{text-align:center;}.center .sec-sub{margin:0 auto;}
+
+/* ── TRUSTED ── */
+.trusted{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:44px 5%;}
+.trusted-inner{max-width:1100px;margin:0 auto;}
+.trusted-lbl{text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);margin-bottom:28px;}
+.trusted-logos{display:flex;align-items:center;justify-content:center;gap:44px;flex-wrap:wrap;}
+.t-logo{
+  font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;font-style:italic;
+  color:var(--gray2);opacity:.6;transition:all .2s;
+  display:flex;align-items:center;gap:8px;cursor:default;letter-spacing:.5px;text-transform:uppercase;
+}
+.t-logo:hover{opacity:1;color:var(--orange);}
+.t-logo-i{width:24px;height:24px;border-radius:5px;background:var(--surface2);display:flex;align-items:center;justify-content:center;}
+
+/* ── PARALLAX SECTION DIVIDER ── */
+.parallax-section{
+  position:relative;overflow:hidden;
+  background:var(--bg2);
+  padding:100px 5%;
+}
+.ps-bg{
+  position:absolute;inset:-30%;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 50%,rgba(255,107,26,.06) 0%,transparent 60%);
+  will-change:transform;
+}
+.ps-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,107,26,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,107,26,.03) 1px,transparent 1px);
+  background-size:50px 50px;
+  will-change:transform;
+}
+.ps-lines{position:absolute;inset:0;overflow:hidden;}
+.ps-line{
+  position:absolute;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,107,26,.15),transparent);
+  will-change:transform;
+}
+
+/* ── HOW IT WORKS ── */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;border:1px solid var(--border);}
+.how-card{
+  background:var(--bg2);padding:36px 30px;
+  transition:all .35s;position:relative;overflow:hidden;cursor:pointer;
+}
+.how-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--orange),var(--orange-dark));
+  transform:scaleX(0);transition:transform .35s;transform-origin:left;
+}
+.how-card:hover{background:var(--surface);}
+.how-card:hover::before{transform:scaleX(1);}
+.how-num{
+  font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:900;font-style:italic;
+  color:rgba(255,107,26,.08);line-height:1;margin-bottom:8px;letter-spacing:-2px;
+  transition:.35s;
+}
+.how-card:hover .how-num{color:rgba(255,107,26,.14);}
+.how-icon{margin-bottom:16px;}
+.how-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;font-style:italic;
+  color:var(--white);margin-bottom:10px;letter-spacing:-.5px;
+}
+.how-desc{font-size:14px;color:var(--text2);line-height:1.7;}
+
+/* ── FEATURES ── */
+.feat-bg{background:var(--bg);}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;border:1px solid var(--border);}
+.feat-card{
+  background:var(--bg2);padding:32px 28px;
+  transition:all .35s;cursor:pointer;position:relative;
+}
+.feat-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--orange),transparent);
+  opacity:0;transition:.35s;
+}
+.feat-card:hover{background:var(--surface);}
+.feat-card:hover::after{opacity:1;}
+.feat-icon{
+  width:48px;height:48px;border-radius:10px;
+  background:var(--orange-dim);border:1px solid rgba(255,107,26,.15);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  transition:.3s;
+}
+.feat-card:hover .feat-icon{background:rgba(255,107,26,.18);border-color:rgba(255,107,26,.3);}
+.feat-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;font-style:italic;
+  color:var(--white);margin-bottom:8px;letter-spacing:-.3px;
+}
+.feat-desc{font-size:13px;color:var(--text2);line-height:1.65;}
+
+/* ── NODE SECTION ── */
+.node-wrap{background:var(--bg);position:relative;overflow:hidden;padding:100px 5%;}
+.node-canvas{position:absolute;inset:0;width:100%;height:100%;}
+.node-inner{max-width:1280px;margin:0 auto;position:relative;z-index:2;}
+.nodes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;border:1px solid var(--border);}
+.node-card{
+  background:rgba(26,26,26,.8);backdrop-filter:blur(10px);padding:32px 28px;
+  border:none;transition:all .35s;cursor:pointer;position:relative;
+}
+.node-card:hover{background:rgba(255,107,26,.05);}
+.node-dot-wrap{position:absolute;top:20px;right:20px;width:8px;height:8px;}
+.node-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);animation:nd-pulse 2s ease-in-out infinite;}
+@keyframes nd-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,26,.4);}50%{box-shadow:0 0 0 8px rgba(255,107,26,0);}}
+.node-ico{
+  width:48px;height:48px;border-radius:10px;
+  background:var(--orange-dim);border:1px solid rgba(255,107,26,.15);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.node-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;font-style:italic;
+  color:var(--white);margin-bottom:8px;
+}
+.node-desc{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:16px;}
+.node-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--orange-dim);border:1px solid rgba(255,107,26,.2);
+  border-radius:3px;padding:3px 10px;
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;font-style:italic;
+  letter-spacing:.5px;text-transform:uppercase;color:var(--orange);
+}
+
+/* ── BUSINESS ── */
+.biz-bg{background:var(--bg2);}
+.biz-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.biz-list{list-style:none;margin:28px 0 36px;}
+.biz-list li{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 0;border-bottom:1px solid var(--border);
+}
+.biz-list li:last-child{border:none;}
+.biz-ico{
+  width:36px;height:36px;border-radius:8px;
+  background:var(--orange-dim);border:1px solid rgba(255,107,26,.15);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+}
+.biz-list strong{
+  display:block;font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;font-weight:800;font-style:italic;color:var(--white);letter-spacing:-.3px;
+}
+.biz-list p{font-size:13px;color:var(--text2);margin-top:2px;}
+.dash-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;box-shadow:var(--sh-card);overflow:hidden;
+}
+.dash-header{
+  background:var(--bg);padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.dash-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;font-style:italic;color:var(--text);letter-spacing:.3px;}
+.dash-date{font-size:10px;color:var(--gray2);}
+.dash-body{padding:18px;}
+.dash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.dash-stat{background:var(--bg);border-radius:8px;padding:14px;border:1px solid var(--border);}
+.dash-num{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--white);}
+.dash-lbl{font-size:10px;color:var(--gray);margin-top:1px;}
+.dash-delta{font-size:10px;font-weight:700;color:#4ADE80;margin-top:3px;}
+.mini-chart-wrap{background:var(--bg);border-radius:8px;padding:14px;border:1px solid var(--border);}
+.mini-chart-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gray);margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase;}
+.stock-chart{width:100%;height:70px;display:block;}
+.stock-grid{stroke:rgba(255,255,255,.05);stroke-width:1;}
+.stock-area{fill:rgba(255,107,26,.12);}
+.stock-line{fill:none;stroke:var(--orange);stroke-width:2;}
+.stock-point{fill:var(--orange);}
+.stock-point.dim{fill:var(--gray3);}
+
+/* ── RIDER ── */
+.rider-wrap{
+  background:var(--bg);
+  position:relative;overflow:hidden;padding:100px 5%;
+}
+.rider-pg{
+  position:absolute;inset:-30%;
+  background:radial-gradient(ellipse 60% 60% at 80% 50%,rgba(255,107,26,.07) 0%,transparent 65%);
+  will-change:transform;
+}
+.rider-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;z-index:2;}
+.rider-lbl{display:inline-flex;align-items:center;gap:8px;background:var(--orange-dim);border:1px solid rgba(255,107,26,.2);border-radius:4px;padding:5px 12px;margin-bottom:18px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);}
+.rider-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(42px,5vw,72px);font-weight:900;font-style:italic;color:var(--white);line-height:.95;letter-spacing:-1.5px;margin-bottom:18px;}
+.rider-sub{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:32px;}
+.rider-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-bottom:36px;border:1px solid var(--border);}
+.rider-stat{background:var(--bg2);padding:20px;}
+.rider-stat-num{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;font-style:italic;color:var(--orange);}
+.rider-stat-lbl{font-size:12px;color:var(--gray);margin-top:2px;}
+.btn-apply{
+  background:var(--orange);color:white;border:none;border-radius:6px;
+  padding:16px 34px;
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  box-shadow:var(--sh-orange);transition:all .25s;
+}
+.btn-apply:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 16px 50px rgba(255,107,26,.4);}
+.rider-form{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:32px;
+}
+.rf-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;font-style:italic;color:var(--white);margin-bottom:24px;letter-spacing:-.5px;}
+.rg{margin-bottom:14px;}
+.rg label{display:block;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:5px;}
+.rg input,.rg select{
+  width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:6px;
+  padding:11px 13px;font-size:14px;color:var(--text);font-family:'Barlow',sans-serif;transition:all .2s;
+}
+.rg input:focus,.rg select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,26,.08);}
+.rg input::placeholder{color:var(--gray2);}
+.rg select option{background:var(--surface);color:var(--text);}
+.rg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.submit-btn{
+  width:100%;margin-top:6px;background:var(--orange);color:white;border:none;border-radius:6px;
+  padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;transition:all .25s;box-shadow:var(--sh-orange);
+}
+.submit-btn:hover{background:var(--orange-dark);transform:translateY(-1px);}
+
+/* ── TESTIMONIALS ── */
+.testi-bg{background:var(--bg2);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;border:1px solid var(--border);}
+.testi-card{background:var(--bg);padding:30px 26px;transition:all .35s;}
+.testi-card:hover{background:var(--surface);}
+.stars{color:var(--orange);font-size:14px;margin-bottom:14px;letter-spacing:2px;}
+.testi-text{font-size:14px;color:var(--text2);line-height:1.75;font-style:italic;margin-bottom:22px;}
+.testi-author{display:flex;align-items:center;gap:11px;}
+.author-av{
+  width:40px;height:40px;border-radius:8px;
+  background:linear-gradient(135deg,var(--orange),var(--orange-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:white;flex-shrink:0;
+}
+.author-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;font-style:italic;color:var(--white);}
+.author-role{font-size:11px;color:var(--gray);margin-top:1px;}
+
+/* ── PRICING ── */
+.pricing-bg{background:var(--bg);}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;max-width:860px;margin-left:auto;margin-right:auto;border:1px solid var(--border);}
+.price-card{background:var(--bg2);padding:32px;transition:all .35s;}
+.price-card:hover{background:var(--surface);}
+.price-card.feat{background:var(--orange);border:none;}
+.price-lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:14px;}
+.price-card.feat .price-lbl{color:rgba(255,255,255,.7);}
+.price-amt{font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;font-style:italic;color:var(--white);letter-spacing:-1px;}
+.price-amt span{font-size:16px;font-weight:500;color:var(--gray);font-style:normal;}
+.price-card.feat .price-amt span{color:rgba(255,255,255,.6);}
+.price-period{font-size:12px;color:var(--gray);margin-top:4px;margin-bottom:24px;}
+.price-card.feat .price-period{color:rgba(255,255,255,.6);}
+.price-feats{list-style:none;margin-bottom:28px;}
+.price-feats li{font-size:13px;color:var(--text2);padding:7px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.price-feats li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--orange);flex-shrink:0;}
+.price-card.feat .price-feats li{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.15);}
+.price-card.feat .price-feats li::before{background:white;}
+.btn-price{
+  width:100%;background:var(--surface);color:var(--text);border:1px solid var(--border2);border-radius:6px;
+  padding:12px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;text-align:center;display:block;text-decoration:none;
+}
+.btn-price:hover{background:var(--orange);border-color:var(--orange);color:white;}
+.price-card.feat .btn-price{background:white;color:var(--orange-dark);border:none;}
+.price-card.feat .btn-price:hover{background:rgba(255,255,255,.9);}
+
+/* ── FINAL CTA ── */
+.final-cta{
+  background:var(--bg2);
+  padding:120px 5%;text-align:center;position:relative;overflow:hidden;
+  border-top:1px solid var(--border);
+}
+.fc-bg{
+  position:absolute;inset:-30%;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(255,107,26,.07) 0%,transparent 65%);
+  will-change:transform;
+}
+.fc-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,107,26,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,26,.03) 1px,transparent 1px);background-size:50px 50px;}
+.fc-inner{position:relative;z-index:2;max-width:700px;margin:0 auto;}
+.fc-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-dim);border:1px solid rgba(255,107,26,.2);border-radius:4px;padding:6px 14px;margin-bottom:24px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);}
+.fc-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(52px,7vw,96px);font-weight:900;font-style:italic;color:var(--white);letter-spacing:-2px;line-height:.9;margin-bottom:20px;}
+.fc-sub{font-size:17px;color:var(--text2);margin-bottom:40px;line-height:1.75;}
+
+/* ── FOOTER ── */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 28px;}
+.footer-top{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:44px;border-bottom:1px solid var(--border);}
+.footer-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;font-style:italic;color:var(--white);margin-bottom:12px;display:flex;align-items:center;gap:9px;}
+.footer-logo-mark{width:30px;height:30px;border-radius:7px;background:var(--orange);display:flex;align-items:center;justify-content:center;}
+.footer-desc{font-size:13px;color:var(--gray2);line-height:1.7;max-width:240px;}
+.footer-col-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);margin-bottom:16px;}
+.footer-col a{display:block;font-size:13px;color:var(--gray2);text-decoration:none;margin-bottom:9px;transition:color .2s;}
+.footer-col a:hover{color:var(--orange);}
+.footer-bottom{max-width:1280px;margin:0 auto;padding-top:22px;display:flex;align-items:center;justify-content:space-between;}
+.footer-copy{font-size:12px;color:var(--gray2);}
+.footer-made{font-size:12px;color:var(--gray2);}
+.footer-made span{color:var(--orange);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:16px;width:100%;max-width:520px;box-shadow:0 40px 100px rgba(0,0,0,.6);transform:scale(.94) translateY(12px);transition:transform .35s cubic-bezier(.22,.68,0,1.1);}
+.modal-overlay.open .modal{transform:scale(1) translateY(0);}
+.modal-header{padding:22px 26px 0;display:flex;align-items:flex-start;justify-content:space-between;}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;font-style:italic;color:var(--white);letter-spacing:-.5px;}
+.modal-close{width:30px;height:30px;border-radius:6px;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray);transition:.2s;}
+.modal-close:hover{background:var(--bg);color:var(--text);}
+.modal-body{padding:18px 26px 26px;}
+.modal-sub{font-size:14px;color:var(--text2);margin-bottom:22px;line-height:1.65;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:5px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:11px 13px;font-size:14px;color:var(--text);font-family:'Barlow',sans-serif;transition:all .2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,26,.1);}
+.form-group input::placeholder{color:var(--gray2);}
+.form-group select option{background:var(--surface);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-submit{
+  width:100%;background:var(--orange);color:white;border:none;border-radius:6px;
+  padding:13px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;font-style:italic;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;transition:all .25s;box-shadow:var(--sh-orange);margin-top:4px;
+}
+.form-submit:hover{background:var(--orange-dark);transform:translateY(-1px);}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--surface);border:1px solid var(--border2);color:var(--text);
+  border-radius:10px;padding:14px 18px;
+  font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;font-style:italic;letter-spacing:.3px;
+  box-shadow:var(--sh-card);z-index:2000;display:flex;align-items:center;gap:10px;
+  transform:translateY(80px);opacity:0;transition:all .4s cubic-bezier(.22,.68,0,1.2);
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast-ico{width:26px;height:26px;border-radius:6px;background:rgba(74,222,128,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal:nth-child(2){transition-delay:.1s;}
+.reveal:nth-child(3){transition-delay:.2s;}
+.reveal:nth-child(4){transition-delay:.3s;}
+.reveal:nth-child(5){transition-delay:.4s;}
+.reveal:nth-child(6){transition-delay:.5s;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;gap:48px;}
+  .hv-badge-2{display:none;}
+  .how-grid,.feat-grid,.nodes-grid,.testi-grid{grid-template-columns:1fr;}
+  .biz-grid{grid-template-columns:1fr;}
+  .rider-inner{grid-template-columns:1fr;gap:48px;}
+  .pricing-grid{grid-template-columns:1fr;max-width:380px;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:28px;}
+  .nav-links{display:none;}
+}
+@media(max-width:600px){
+  .feat-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center;}
+  .hero-btns{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <canvas id="splashCanvas" class="splash-canvas"></canvas>
+  <div class="splash-inner">
+    <span class="splash-word"><span>HATOD</span></span>
+    <span class="splash-word"><span>NOW</span></span>
+    <div class="splash-sub">Davao City's Fastest Delivery</div>
+    <div class="splash-line"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M5 18L12 6L19 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 15L16 15" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="19" cy="8" r="3" fill="white" opacity=".8"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">HATOD<em>NOW</em></span>
+  </a>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#business">Business</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#riders">Riders</a>
+  </div>
+  <div class="nav-right">
+    <a href="#riders" class="btn-ghost">Become a Rider</a>
+    <button class="btn-nav" onclick="openModal('bookModal')">Book Delivery</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="book">
+  <div class="parallax-bg" data-parallax="0.15"></div>
+  <div class="parallax-grid" data-parallax="0.08"></div>
+  <div class="parallax-orb-1" data-parallax="0.2"></div>
+  <div class="parallax-orb-2" data-parallax="0.12"></div>
+
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow-text">Now Live in Davao City</span>
+      </div>
+      <h1>
+        <span class="line-wrap"><span class="line">FAST</span></span>
+        <span class="line-wrap"><span class="line">DELIVERIES</span></span>
+        <span class="line-wrap"><span class="line hl">IN MINUTES</span></span>
+      </h1>
+      <p class="hero-sub">Book riders instantly, track parcels live, and deliver anywhere in Davao with real-time updates. Powered by 500+ verified riders.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openModal('bookModal')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Book Delivery
+        </button>
+        <button class="btn-outline" onclick="openModal('riderModal')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Become a Rider
+        </button>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-avatars">
+          <span>JB</span><span>MR</span><span>LC</span><span>+</span>
+        </div>
+        <div class="trust-text"><strong>2,400+ businesses</strong> trust HatodNow daily</div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hv-badge hv-badge-1">
+        <div class="hv-bi hv-bi-o">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div><div class="hv-val">60 sec</div><div class="hv-sub">Avg. assign time</div></div>
+      </div>
+      <div class="hv-badge hv-badge-2">
+        <div class="hv-bi hv-bi-o">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div><div class="hv-val">Live GPS</div><div class="hv-sub">Real-time tracking</div></div>
+      </div>
+      <div class="app-card">
+        <div class="ac-header">
+          <span class="ac-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            HatodNow Tracker
+          </span>
+          <span class="ac-pill"><span class="ac-dot"></span>En Route</span>
+        </div>
+        <div class="map-area">
+          <div class="map-grid-dark"></div>
+          <div class="route-line"></div>
+          <div class="rider-pin">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          </div>
+          <div class="dest-pin">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="eta-bubble">ETA <span class="eta-o">8 mins</span>&nbsp;· Matina</div>
+        </div>
+        <div class="t-steps">
+          <div class="t-step">
+            <div class="t-ico t-done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div style="flex:1"><div class="t-lbl">Pickup Confirmed</div><div class="t-sub-txt">SM Davao, Ecoland</div></div>
+            <div class="t-time">10:14</div>
+          </div>
+          <div class="t-step">
+            <div class="t-ico t-active"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+            <div style="flex:1"><div class="t-lbl">En Route</div><div class="t-sub-txt">2.3 km remaining</div></div>
+            <div class="t-time active">Now</div>
+          </div>
+          <div class="t-step">
+            <div class="t-ico t-pend"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+            <div style="flex:1"><div class="t-lbl muted">Delivered</div><div class="t-sub-txt">Pending</div></div>
+            <div class="t-time">~10:33</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Real-Time GPS Tracking</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Proof of Delivery</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>COD Support</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Same-Day Delivery</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Transparent Pricing</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Business Dashboard</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verified Riders Only</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>500+ Active Riders</div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Real-Time GPS Tracking</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Proof of Delivery</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>COD Support</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Same-Day Delivery</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Transparent Pricing</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Business Dashboard</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verified Riders Only</div>
+    <div class="marquee-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>500+ Active Riders</div>
+  </div>
+</div>
+
+<!-- TRUSTED -->
+<div class="trusted">
+  <div class="trusted-inner">
+    <div class="trusted-lbl">Trusted by Davao businesses</div>
+    <div class="trusted-logos">
+      <div class="t-logo"><div class="t-logo-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg></div>Ganda Flowers</div>
+      <div class="t-logo"><div class="t-logo-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>MediDavao</div>
+      <div class="t-logo"><div class="t-logo-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg></div>Luto ni Nay</div>
+      <div class="t-logo"><div class="t-logo-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>Tela &amp; Thread</div>
+      <div class="t-logo"><div class="t-logo-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>SariBox PH</div>
+      <div class="t-logo"><div class="t-logo-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>Bibingka Haus</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="parallax-section" id="how">
+  <div class="ps-bg" data-parallax="0.1"></div>
+  <div class="ps-grid" data-parallax="0.05"></div>
+  <div class="ps-lines">
+    <div class="ps-line" style="top:20%;width:100%;" data-parallax="0.08"></div>
+    <div class="ps-line" style="top:60%;width:80%;left:10%;" data-parallax="0.12"></div>
+  </div>
+  <div class="sec-inner" style="position:relative;z-index:2;">
+    <div class="center">
+      <div class="sec-label">How It Works</div>
+      <div class="sec-title">3 STEPS TO<br/>FAST DELIVERY</div>
+      <p class="sec-sub">Book, track, and receive. No calls, no hassle — everything done in seconds.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-num">01</div>
+        <div class="how-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="how-title">Book Pickup</div>
+        <p class="how-desc">Enter pickup and drop-off in seconds. Choose parcel size and add rider notes — all in the app.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-num">02</div>
+        <div class="how-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="how-title">Rider Assigned</div>
+        <p class="how-desc">Nearest verified rider accepts in under 60 seconds. View their profile, plate, and rating instantly.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-num">03</div>
+        <div class="how-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="how-title">Track Live</div>
+        <p class="how-desc">Watch your parcel move on the live map. Photo proof sent the moment it lands at the destination.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="sec feat-bg" id="features">
+  <div class="sec-inner">
+    <div class="center">
+      <div class="sec-label">Features</div>
+      <div class="sec-title">BUILT FOR<br/>DAVAO'S PACE</div>
+      <p class="sec-sub">Every feature built for sellers, shops, and businesses who cannot afford to wait.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal" onclick="openModal('featureModal','Real-Time GPS Tracking','Watch your rider move live on the map every second. Share the tracking link with your customers or recipients instantly. Zero guesswork.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feat-title">Real-Time GPS Tracking</div>
+        <p class="feat-desc">Watch your rider move live every second. Share tracking link with customers instantly.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Affordable Transparent Pricing','Starting at P49. No hidden charges, no surprise fees. See the exact total before you confirm any booking. What you see is what you pay.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <div class="feat-title">Transparent Pricing</div>
+        <p class="feat-desc">P49 base fare. No hidden charges. Exact price shown before confirming any delivery.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Same-Day Delivery','Most deliveries completed within 2 hours across all Davao City zones. Guaranteed same-day, or your next delivery is on us.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="feat-title">Same-Day Delivery</div>
+        <p class="feat-desc">Delivered within 2 hours across all Davao City zones. Guaranteed same-day.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Proof of Delivery','A GPS-stamped photo is sent to you automatically at drop-off. Zero disputes, full accountability for every single delivery.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <div class="feat-title">Proof of Delivery</div>
+        <p class="feat-desc">GPS-stamped photo at drop-off, sent automatically. Zero delivery disputes.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','COD Support','Collect cash on delivery from your customers. Collected cash is remitted directly to your account within 24 hours, automatically.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <div class="feat-title">COD Support</div>
+        <p class="feat-desc">Collect cash on delivery. Remittance sent to your account within 24 hours.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Business Dashboard','Manage bulk bookings, view live analytics, export reports, and track all COD collections in one unified place. Built for scale.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="feat-title">Business Dashboard</div>
+        <p class="feat-desc">Bulk bookings, analytics, COD tracking — all in one place. Built for scale.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Route Optimization','Riders are routed by live traffic and distance so deliveries arrive faster with fewer detours.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="feat-title">Route Optimization</div>
+        <p class="feat-desc">Live traffic routing shortens travel time and reduces missed turns.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Scheduled Pickups','Choose a pickup window and we dispatch a rider at the exact time you need.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feat-title">Scheduled Pickups</div>
+        <p class="feat-desc">Book ahead and lock in your preferred pickup time with zero calls.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Multi-Stop Drops','Send to multiple addresses in a single run with optimized drop order.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="6" rx="2"/><rect x="3" y="10" width="18" height="6" rx="2"/><rect x="3" y="17" width="18" height="4" rx="2"/></svg></div>
+        <div class="feat-title">Multi-Stop Drops</div>
+        <p class="feat-desc">Group multiple deliveries into one booking for faster dispatch.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Priority Support','Get fast support from a dedicated help line for urgent deliveries and business accounts.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M2 12h4"/><path d="M18 12h4"/></svg></div>
+        <div class="feat-title">Priority Support</div>
+        <p class="feat-desc">Dedicated assistance for time-sensitive deliveries and partner accounts.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Live ETA Updates','Minute-by-minute ETAs that automatically recalculate based on traffic and rider progress.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feat-title">Live ETA Updates</div>
+        <p class="feat-desc">Minute-by-minute ETAs update as your rider moves across Davao.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Contactless Drop-Off','Set safe drop instructions and get photo proof when the parcel is delivered.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <div class="feat-title">Contactless Drop-Off</div>
+        <p class="feat-desc">Set safe drop instructions and receive photo confirmation.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Pickup Photo Verification','Riders capture a pickup photo so you can verify item condition before transit.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="feat-title">Pickup Photo Verification</div>
+        <p class="feat-desc">Photo at pickup confirms item condition before delivery.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Return-to-Sender','If the recipient is unavailable, the rider automatically returns the parcel to you.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h13"/><path d="M8 7l-5 5 5 5"/><circle cx="18" cy="12" r="3"/></svg></div>
+        <div class="feat-title">Return-to-Sender</div>
+        <p class="feat-desc">Automatic return if a delivery cannot be completed.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Delivery Zone Controls','Choose service zones and hours so you only accept orders where you deliver.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="6" rx="2"/><rect x="3" y="10" width="18" height="6" rx="2"/><rect x="3" y="17" width="18" height="4" rx="2"/></svg></div>
+        <div class="feat-title">Delivery Zone Controls</div>
+        <p class="feat-desc">Set zones and hours to manage demand and coverage.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','In-App Chat','Message your rider directly without exposing personal phone numbers.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-8.5 8.5 8.38 8.38 0 01-4.7-1.4L3 20l1.4-4.8A8.38 8.38 0 013 11.5 8.38 8.38 0 0111.5 3a8.38 8.38 0 018.5 8.5z"/></svg></div>
+        <div class="feat-title">In-App Chat</div>
+        <p class="feat-desc">Secure rider messaging with no number sharing.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Smart Notifications','Get SMS, email, or in-app alerts at every delivery milestone.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+        <div class="feat-title">Smart Notifications</div>
+        <p class="feat-desc">Alerts for booking, pickup, en route, and delivery completion.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Parcel Insurance','Optional coverage protects high-value items with clear claims support.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="feat-title">Parcel Insurance</div>
+        <p class="feat-desc">Protect high-value items with optional coverage per delivery.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Temperature-Safe Handling','Insulated bags keep food and medicine safe through the ride.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4 4 0 105 0z"/><line x1="9" y1="6" x2="14" y2="6"/></svg></div>
+        <div class="feat-title">Temperature-Safe Handling</div>
+        <p class="feat-desc">Insulated handling for hot meals and sensitive items.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Rider Verification','All riders are ID-verified, with vehicle plate and profile checks.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="feat-title">Rider Verification</div>
+        <p class="feat-desc">Verified IDs and plate checks for every active rider.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NODE SECTION -->
+<section class="node-wrap" id="platform">
+  <canvas id="nodeCanvas" class="node-canvas"></canvas>
+  <div class="node-inner">
+    <div class="center">
+      <div class="sec-label">Platform</div>
+      <div class="sec-title">ONE NETWORK,<br/>EVERY DELIVERY</div>
+      <p class="sec-sub" style="margin:0 auto 0;">Senders, riders, and businesses connected in a single live network built for Davao.</p>
+    </div>
+    <div class="nodes-grid">
+      <div class="node-card reveal" onclick="this.classList.toggle('active')">
+        <div class="node-dot-wrap"><div class="node-dot"></div></div>
+        <div class="node-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="node-title">Sender Node</div>
+        <p class="node-desc">Book in seconds. Set pickup and drop-off, add notes, and track live from dispatch to door.</p>
+        <div class="node-tag">Active</div>
+      </div>
+      <div class="node-card reveal" onclick="this.classList.toggle('active')">
+        <div class="node-dot-wrap"><div class="node-dot" style="animation-delay:.6s;"></div></div>
+        <div class="node-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+        <div class="node-title">Rider Node</div>
+        <p class="node-desc">Accept bookings, navigate to pickups, and earn daily with real-time payout tracking.</p>
+        <div class="node-tag">500+ Online</div>
+      </div>
+      <div class="node-card reveal" onclick="this.classList.toggle('active')">
+        <div class="node-dot-wrap"><div class="node-dot" style="animation-delay:1.2s;"></div></div>
+        <div class="node-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="node-title">Business Node</div>
+        <p class="node-desc">Bulk bookings, analytics, COD tracking, and Shopee / Lazada integration in one dashboard.</p>
+        <div class="node-tag">2,400+ Partners</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR BUSINESS -->
+<section class="sec biz-bg" id="business">
+  <div class="sec-inner">
+    <div class="biz-grid">
+      <div>
+        <div class="sec-label">For Businesses</div>
+        <div class="sec-title">NEED DAILY<br/>DELIVERIES?</div>
+        <p class="sec-sub">Whether you run a bakery, online shop, or pharmacy — HatodNow scales with you.</p>
+        <ul class="biz-list">
+          <li><div class="biz-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div><strong>Bulk Booking</strong><p>Schedule dozens of deliveries at once with one click from the dashboard.</p></div></li>
+          <li><div class="biz-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div><strong>Delivery Analytics</strong><p>On-time rates, rider performance, and zone data at a glance.</p></div></li>
+          <li><div class="biz-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div><strong>COD Remittance</strong><p>Cash collected and remitted to your account automatically within 24 hours.</p></div></li>
+          <li><div class="biz-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><strong>Dedicated Riders</strong><p>Your own verified rider pool. Priority assignment, exclusively yours.</p></div></li>
+        </ul>
+        <button class="btn-primary" onclick="openModal('partnerModal')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Partner With Us
+        </button>
+      </div>
+      <div class="dash-card reveal">
+        <div class="dash-header">
+          <span class="dash-title">Business Dashboard</span>
+          <span class="dash-date">May 2026</span>
+        </div>
+        <div class="dash-body">
+          <div class="dash-stats">
+            <div class="dash-stat"><div class="dash-num">348</div><div class="dash-lbl">Deliveries</div><div class="dash-delta">+12% this week</div></div>
+            <div class="dash-stat"><div class="dash-num">98%</div><div class="dash-lbl">On-Time Rate</div><div class="dash-delta">+3% from last</div></div>
+            <div class="dash-stat"><div class="dash-num">P48K</div><div class="dash-lbl">COD Collected</div><div class="dash-delta">+P6K this month</div></div>
+          </div>
+          <div class="mini-chart-wrap">
+            <div class="mini-chart-lbl">Deliveries This Week</div>
+            <svg class="stock-chart" viewBox="0 0 240 70" preserveAspectRatio="none" aria-hidden="true">
+              <line class="stock-grid" x1="0" y1="10" x2="240" y2="10" />
+              <line class="stock-grid" x1="0" y1="35" x2="240" y2="35" />
+              <line class="stock-grid" x1="0" y1="60" x2="240" y2="60" />
+              <path class="stock-area" d="M0 58 L30 52 L60 48 L90 54 L120 40 L150 28 L180 36 L210 26 L240 32 L240 70 L0 70 Z" />
+              <polyline class="stock-line" points="0,58 30,52 60,48 90,54 120,40 150,28 180,36 210,26 240,32" />
+              <circle class="stock-point dim" cx="0" cy="58" r="2" />
+              <circle class="stock-point dim" cx="30" cy="52" r="2" />
+              <circle class="stock-point dim" cx="60" cy="48" r="2" />
+              <circle class="stock-point dim" cx="90" cy="54" r="2" />
+              <circle class="stock-point" cx="120" cy="40" r="2.5" />
+              <circle class="stock-point" cx="150" cy="28" r="2.5" />
+              <circle class="stock-point" cx="180" cy="36" r="2.5" />
+              <circle class="stock-point" cx="210" cy="26" r="2.5" />
+              <circle class="stock-point" cx="240" cy="32" r="2.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RIDER -->
+<section class="rider-wrap" id="riders">
+  <div class="rider-pg" data-parallax="0.15"></div>
+  <div class="ps-grid" data-parallax="0.06" style="position:absolute;inset:0;"></div>
+  <div class="rider-inner">
+    <div>
+      <div class="rider-lbl">Join the Team</div>
+      <div class="rider-title">EARN DAILY<br/>AS A<br/><span style="color:var(--orange);">RIDER</span></div>
+      <p class="rider-sub">Use your motorcycle to earn flexible income in Davao City. More bookings, faster payouts — on your own schedule.</p>
+      <div class="rider-stats">
+        <div class="rider-stat"><div class="rider-stat-num">P800+</div><div class="rider-stat-lbl">avg daily earnings</div></div>
+        <div class="rider-stat"><div class="rider-stat-num">24h</div><div class="rider-stat-lbl">payout turnaround</div></div>
+        <div class="rider-stat"><div class="rider-stat-num">FLEX</div><div class="rider-stat-lbl">set your own hours</div></div>
+        <div class="rider-stat"><div class="rider-stat-num">P0</div><div class="rider-stat-lbl">enrollment fee</div></div>
+      </div>
+      <button class="btn-apply" onclick="openModal('riderModal')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Apply Now — It's Free
+      </button>
+    </div>
+    <div class="rider-form reveal">
+      <div class="rf-title">Apply as Rider</div>
+      <div class="rg-row">
+        <div class="rg"><label>First Name</label><input type="text" placeholder="Juan"/></div>
+        <div class="rg"><label>Last Name</label><input type="text" placeholder="dela Cruz"/></div>
+      </div>
+      <div class="rg"><label>Phone Number</label><input type="tel" placeholder="+63 9XX XXX XXXX"/></div>
+      <div class="rg"><label>Email Address</label><input type="email" placeholder="juan@email.com"/></div>
+      <div class="rg-row">
+        <div class="rg"><label>Vehicle Type</label><select><option>Motorcycle</option><option>Scooter</option><option>Tricycle</option></select></div>
+        <div class="rg"><label>Area</label><select><option>Poblacion</option><option>Matina</option><option>Buhangin</option><option>Toril</option><option>All Areas</option></select></div>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">Submit Application</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec testi-bg">
+  <div class="sec-inner">
+    <div class="center">
+      <div class="sec-label">Social Proof</div>
+      <div class="sec-title">WHAT DAVAO<br/>CUSTOMERS SAY</div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Super bilis ng delivery! Na-deliver ang aking Shopee orders within the hour. Grabe ang tracking — alam ko kung nasaan na ang rider every minute."</p>
+        <div class="testi-author"><div class="author-av">MR</div><div><div class="author-name">Maria Reyes</div><div class="author-role">Online Seller · Buhangin</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Game changer for our flower shop. Same-day delivery across Davao with photo proof. Our customers love it and we have zero delivery complaints."</p>
+        <div class="testi-author"><div class="author-av">JB</div><div><div class="author-name">Jay Buenaventura</div><div class="author-role">Flower Shop Owner · Agdao</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"We use Hatod Now for urgent pharmacy deliveries. COD collection is seamless and the remittance is always on time. Highly recommend for any Davao business."</p>
+        <div class="testi-author"><div class="author-av">LC</div><div><div class="author-name">Liza Canlas</div><div class="author-role">Pharmacy Manager · Toril</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec pricing-bg" id="pricing">
+  <div class="sec-inner">
+    <div class="center">
+      <div class="sec-label">Pricing</div>
+      <div class="sec-title">SIMPLE,<br/>TRANSPARENT</div>
+      <p class="sec-sub">No hidden fees. Pay only for what you deliver.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-lbl">Personal</div>
+        <div class="price-amt">P49<span>/delivery</span></div>
+        <div class="price-period">base fare + P10/km</div>
+        <ul class="price-feats"><li>Real-time tracking</li><li>Proof of delivery</li><li>COD support</li><li>Up to 5kg parcels</li></ul>
+        <a href="#" class="btn-price" onclick="openModal('bookModal');return false;">Book Now</a>
+      </div>
+      <div class="price-card feat reveal">
+        <div class="price-lbl">Business</div>
+        <div class="price-amt">P39<span>/delivery</span></div>
+        <div class="price-period">min. 20 deliveries/month</div>
+        <ul class="price-feats"><li>Everything in Personal</li><li>Bulk booking dashboard</li><li>Delivery analytics</li><li>Priority rider pool</li><li>24h COD remittance</li></ul>
+        <a href="#" class="btn-price" onclick="openModal('partnerModal');return false;">Get Started</a>
+      </div>
+      <div class="price-card reveal">
+        <div class="price-lbl">Enterprise</div>
+        <div class="price-amt" style="font-size:32px;padding-top:4px;">Custom</div>
+        <div class="price-period">high-volume operations</div>
+        <ul class="price-feats"><li>Dedicated account manager</li><li>API integration</li><li>Shopee / Lazada sync</li><li>Custom SLA</li></ul>
+        <a href="#" class="btn-price" onclick="openModal('partnerModal');return false;">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="fc-bg" data-parallax="0.12"></div>
+  <div class="fc-grid"></div>
+  <div class="fc-inner">
+    <div class="fc-badge">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="#FF6B1A"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Ready in 60 Seconds
+    </div>
+    <div class="fc-title">NEED DELIVERY<br/>TODAY?</div>
+    <p class="fc-sub">Book in 30 seconds. Rider dispatched in 60. Delivered same day — anywhere in Davao City.</p>
+    <button class="btn-primary" style="font-size:18px;padding:18px 44px;margin:0 auto;" onclick="openModal('bookModal')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Book Now — It's Fast
+    </button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        <div class="footer-logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 18L12 6L19 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 15L16 15" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+        HATOДНOW
+      </div>
+      <p class="footer-desc">Fast, reliable same-day delivery in Davao City. Built for sellers, businesses, and anyone who needs it now.</p>
+    </div>
+    <div><div class="footer-col-title">Services</div><div class="footer-col"><a href="#" onclick="openModal('bookModal');return false;">Book Delivery</a><a href="#business">Business Partnership</a><a href="#riders">Become a Rider</a><a href="#pricing">Pricing</a></div></div>
+    <div><div class="footer-col-title">Company</div><div class="footer-col"><a href="#">About Us</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Contact</a></div></div>
+    <div><div class="footer-col-title">Legal</div><div class="footer-col"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Refund Policy</a></div></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">2026 Hatod Now · Davao City, Philippines</div>
+    <div class="footer-made">Delivering Davao, <span>one parcel at a time</span></div>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="bookModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Book a Delivery</div><button class="modal-close" onclick="closeModal('bookModal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <p class="modal-sub">Fill in the details and a rider will be assigned in under 60 seconds.</p>
+      <div class="form-row"><div class="form-group"><label>Pickup Address</label><input type="text" placeholder="SM Davao, Ecoland"></div><div class="form-group"><label>Delivery Address</label><input type="text" placeholder="Matina Aplaya"></div></div>
+      <div class="form-row"><div class="form-group"><label>Your Name</label><input type="text" placeholder="Maria Reyes"></div><div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+63 9XX XXX XXXX"></div></div>
+      <div class="form-row"><div class="form-group"><label>Parcel Size</label><select><option>Small (up to 1kg)</option><option>Medium (up to 5kg)</option><option>Large (up to 10kg)</option></select></div><div class="form-group"><label>Payment</label><select><option>Cash on Pickup</option><option>COD</option><option>GCash</option></select></div></div>
+      <div class="form-group"><label>Notes for Rider</label><textarea rows="2" placeholder="Fragile items, call before drop-off..."></textarea></div>
+      <button class="form-submit" onclick="submitForm()">Confirm Booking</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="riderModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Apply as a Rider</div><button class="modal-close" onclick="closeModal('riderModal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <p class="modal-sub">Join 500+ Davao riders earning daily. Flexible hours, fast payouts, zero enrollment fee.</p>
+      <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" placeholder="Juan"></div><div class="form-group"><label>Last Name</label><input type="text" placeholder="dela Cruz"></div></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+63 9XX XXX XXXX"></div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="juan@email.com"></div>
+      <div class="form-row"><div class="form-group"><label>Vehicle Type</label><select><option>Motorcycle</option><option>Scooter</option><option>Tricycle</option></select></div><div class="form-group"><label>Operating Area</label><select><option>Poblacion / Downtown</option><option>Matina / Talomo</option><option>Buhangin / Agdao</option><option>Toril / Calinan</option><option>All Areas</option></select></div></div>
+      <button class="form-submit" onclick="submitForm()">Submit Application</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="partnerModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Partner With Us</div><button class="modal-close" onclick="closeModal('partnerModal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <p class="modal-sub">Tell us about your business and we will set you up with the right plan.</p>
+      <div class="form-row"><div class="form-group"><label>Business Name</label><input type="text" placeholder="Ganda Flowers Davao"></div><div class="form-group"><label>Contact Person</label><input type="text" placeholder="Maria Reyes"></div></div>
+      <div class="form-row"><div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+63 9XX XXX XXXX"></div><div class="form-group"><label>Email Address</label><input type="email" placeholder="maria@shop.ph"></div></div>
+      <div class="form-group"><label>Est. Daily Deliveries</label><select><option>1-10/day</option><option>10-50/day</option><option>50-100/day</option><option>100+/day</option></select></div>
+      <div class="form-group"><label>Message (Optional)</label><textarea rows="2" placeholder="Tell us about your logistics needs..."></textarea></div>
+      <button class="form-submit" onclick="submitForm()">Send Partnership Request</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="featureModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title" id="featureModalTitle">Feature</div><button class="modal-close" onclick="closeModal('featureModal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <p class="modal-sub" id="featureModalDesc"></p>
+      <button class="form-submit" onclick="openModal('bookModal');closeModal('featureModal')">Book a Delivery Now</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <span id="toastMsg">Submitted successfully! We will reach out shortly.</span>
+</div>
+
+<script>
+/* ── PAGE TRANSITIONS ── */
+window.addEventListener('load',()=>{document.body.classList.add('page-ready');});
+window.addEventListener('beforeunload',()=>{document.body.classList.remove('page-ready');document.body.classList.add('page-exit');});
+
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),curRing=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curRing.style.left=rx+'px';curRing.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('button,a,.how-card,.feat-card,.node-card,.testi-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('expand');curRing.classList.add('expand');});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('expand');curRing.classList.remove('expand');});
+});
+
+/* ── SPLASH ── */
+const sCanvas=document.getElementById('splashCanvas');
+const sCtx=sCanvas.getContext('2d');
+sCanvas.width=window.innerWidth;sCanvas.height=window.innerHeight;
+const sNodes=Array.from({length:35},()=>({x:Math.random()*sCanvas.width,y:Math.random()*sCanvas.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+.5,a:Math.random()*.3+.05}));
+let sDone=false;
+(function drawSplash(){
+  sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+  sNodes.forEach(n=>{
+    n.x+=n.vx;n.y+=n.vy;
+    if(n.x<0||n.x>sCanvas.width)n.vx*=-1;
+    if(n.y<0||n.y>sCanvas.height)n.vy*=-1;
+    sCtx.beginPath();sCtx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    sCtx.fillStyle=`rgba(255,107,26,${n.a})`;sCtx.fill();
+  });
+  sNodes.forEach((a,i)=>sNodes.forEach((b,j)=>{
+    if(i>=j)return;
+    const dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<160){sCtx.beginPath();sCtx.moveTo(a.x,a.y);sCtx.lineTo(b.x,b.y);sCtx.strokeStyle=`rgba(255,107,26,${.08*(1-d/160)})`;sCtx.lineWidth=.7;sCtx.stroke();}
+  }));
+  if(!sDone)requestAnimationFrame(drawSplash);
+})();
+setTimeout(()=>{sDone=true;document.getElementById('splash').classList.add('hide');setTimeout(()=>document.getElementById('splash').style.display='none',900);},2800);
+
+/* ── NODE CANVAS ── */
+const nc=document.getElementById('nodeCanvas');
+const nCtx=nc.getContext('2d');
+function resizeNC(){nc.width=nc.offsetWidth;nc.height=nc.offsetHeight;}
+resizeNC();window.addEventListener('resize',resizeNC);
+const nParts=Array.from({length:40},()=>({x:Math.random()*nc.width,y:Math.random()*nc.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.5+.4,a:Math.random()*.2+.04}));
+(function drawNodes(){
+  nCtx.clearRect(0,0,nc.width,nc.height);
+  nParts.forEach(n=>{
+    n.x+=n.vx;n.y+=n.vy;
+    if(n.x<0)n.x=nc.width;if(n.x>nc.width)n.x=0;
+    if(n.y<0)n.y=nc.height;if(n.y>nc.height)n.y=0;
+    nCtx.beginPath();nCtx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    nCtx.fillStyle=`rgba(255,107,26,${n.a})`;nCtx.fill();
+  });
+  nParts.forEach((a,i)=>nParts.forEach((b,j)=>{
+    if(i>=j)return;
+    const dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<140){nCtx.beginPath();nCtx.moveTo(a.x,a.y);nCtx.lineTo(b.x,b.y);nCtx.strokeStyle=`rgba(255,107,26,${.06*(1-d/140)})`;nCtx.lineWidth=.6;nCtx.stroke();}
+  }));
+  requestAnimationFrame(drawNodes);
+})();
+
+/* ── PARALLAX ── */
+function handleParallax(){
+  const sy=window.scrollY;
+  document.querySelectorAll('[data-parallax]').forEach(el=>{
+    const speed=parseFloat(el.dataset.parallax);
+    const rect=el.closest('section,div')?.getBoundingClientRect();
+    const offset=sy*speed;
+    el.style.transform=`translateY(${offset}px)`;
+  });
+}
+window.addEventListener('scroll',handleParallax,{passive:true});
+handleParallax();
+
+/* ── NAV ── */
+window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20);},{passive:true});
+
+/* ── SCROLL REVEAL ── */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.reveal,.how-card,.feat-card,.node-card,.testi-card,.price-card').forEach(el=>{
+  if(!el.classList.contains('reveal'))el.classList.add('reveal');
+  revObs.observe(el);
+});
+
+/* ── MODALS ── */
+function openModal(id,title,desc){
+  if(title){document.getElementById('featureModalTitle').textContent=title;document.getElementById('featureModalDesc').textContent=desc;}
+  document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id);});});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(o=>closeModal(o.id));});
+
+/* ── TOAST ── */
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg||'Submitted! We will reach out shortly.';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+function submitForm(){document.querySelectorAll('.modal-overlay.open').forEach(o=>closeModal(o.id));setTimeout(()=>showToast('Submitted successfully! We will reach out shortly.'),400);}
+</script>
+</body>
+</html>
