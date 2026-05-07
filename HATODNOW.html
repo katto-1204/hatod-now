@@ -35,6 +35,13 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);over
 body.page-ready{opacity:1;}
 body.page-exit{opacity:0;}
 
+/* ── SCROLL PROGRESS ── */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;z-index:2000;
+  background:linear-gradient(90deg,var(--orange),var(--orange-dark));
+  width:0%;box-shadow:0 0 12px rgba(255,107,26,.45);
+}
+
 /* ── CUSTOM CURSOR ── */
 .cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--orange);pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform .1s,width .3s,height .3s,opacity .3s;mix-blend-mode:screen;}
 .cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,107,26,.4);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform .12s ease-out,width .3s,height .3s,opacity .3s;}
@@ -102,6 +109,7 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-col
   color:var(--gray);text-decoration:none;transition:color .2s;
 }
 .nav-links a:hover{color:var(--orange);}
+.nav-links a.active{color:var(--orange);}
 .nav-right{display:flex;align-items:center;gap:10px;}
 .btn-ghost{
   background:none;border:1px solid var(--border2);border-radius:6px;
@@ -223,6 +231,23 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-col
 .trust-avatars span:first-child{margin-left:0;}
 .trust-text{font-size:13px;color:var(--gray);}
 .trust-text strong{color:var(--text);}
+
+.hero-kpis{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
+.kpi-card{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:10px;padding:10px 14px;min-width:140px;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--white);letter-spacing:.2px;}
+.kpi-lbl{font-size:11px;color:var(--gray);letter-spacing:.6px;text-transform:uppercase;}
+
+.scroll-cue{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;color:var(--gray);font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;cursor:pointer;
+}
+.scroll-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 6px rgba(255,107,26,.12);animation:dot-pulse 1.6s ease-in-out infinite;}
+@keyframes dot-pulse{0%,100%{transform:scale(1);}50%{transform:scale(.7);opacity:.6;}}
 
 /* HERO CARD */
 .hero-visual{position:relative;opacity:0;animation:fade-in .9s 1s ease forwards;}
@@ -501,6 +526,12 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-col
 .dash-num{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--white);}
 .dash-lbl{font-size:10px;color:var(--gray);margin-top:1px;}
 .dash-delta{font-size:10px;font-weight:700;color:#4ADE80;margin-top:3px;}
+.dash-chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 14px;}
+.dash-chip{
+  background:rgba(255,107,26,.1);border:1px solid rgba(255,107,26,.3);
+  color:var(--orange);font-size:10px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;border-radius:999px;padding:4px 10px;
+}
 .mini-chart-wrap{background:var(--bg);border-radius:8px;padding:14px;border:1px solid var(--border);}
 .mini-chart-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gray);margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase;}
 .stock-chart{width:100%;height:70px;display:block;}
@@ -525,6 +556,12 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-col
 .rider-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(42px,5vw,72px);font-weight:900;font-style:italic;color:var(--white);line-height:.95;letter-spacing:-1.5px;margin-bottom:18px;}
 .rider-sub{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:32px;}
 .rider-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-bottom:36px;border:1px solid var(--border);}
+.rider-perks{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 24px;}
+.perk-chip{
+  background:var(--bg2);border:1px solid var(--border);
+  color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:.8px;
+  padding:6px 10px;border-radius:999px;
+}
 .rider-stat{background:var(--bg2);padding:20px;}
 .rider-stat-num{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;font-style:italic;color:var(--orange);}
 .rider-stat-lbl{font-size:12px;color:var(--gray);margin-top:2px;}
@@ -561,6 +598,10 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-col
 /* ── TESTIMONIALS ── */
 .testi-bg{background:var(--bg2);}
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;border:1px solid var(--border);}
+.testi-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px;}
+.testi-metric{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.testi-metric-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--white);}
+.testi-metric-lbl{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
 .testi-card{background:var(--bg);padding:30px 26px;transition:all .35s;}
 .testi-card:hover{background:var(--surface);}
 .stars{color:var(--orange);font-size:14px;margin-bottom:14px;letter-spacing:2px;}
@@ -578,6 +619,7 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-col
 /* ── PRICING ── */
 .pricing-bg{background:var(--bg);}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;max-width:860px;margin-left:auto;margin-right:auto;border:1px solid var(--border);}
+.pricing-note{margin:18px auto 0;max-width:520px;font-size:13px;color:var(--gray);text-align:center;}
 .price-card{background:var(--bg2);padding:32px;transition:all .35s;}
 .price-card:hover{background:var(--surface);}
 .price-card.feat{background:var(--orange);border:none;}
@@ -618,6 +660,34 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-col
 .fc-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-dim);border:1px solid rgba(255,107,26,.2);border-radius:4px;padding:6px 14px;margin-bottom:24px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);}
 .fc-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(52px,7vw,96px);font-weight:900;font-style:italic;color:var(--white);letter-spacing:-2px;line-height:.9;margin-bottom:20px;}
 .fc-sub{font-size:17px;color:var(--text2);margin-bottom:40px;line-height:1.75;}
+
+/* ── FAQ ── */
+.faq-bg{background:var(--bg);border-top:1px solid var(--border);}
+.faq-list{margin-top:40px;border:1px solid var(--border);}
+.faq-item{border-bottom:1px solid var(--border);background:var(--bg2);}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{width:100%;text-align:left;background:none;border:none;color:var(--text);
+  padding:18px 20px;font-size:15px;font-weight:700;letter-spacing:.2px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.faq-q span{font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:.6px;text-transform:uppercase;}
+.faq-icon{width:22px;height:22px;border-radius:6px;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;color:var(--gray);transition:transform .2s, color .2s;
+}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+.faq-a p{padding:0 20px 18px;color:var(--text2);font-size:14px;line-height:1.7;}
+.faq-item.open .faq-a{max-height:200px;}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--orange);}
+
+/* ── BACK TO TOP ── */
+.to-top{
+  position:fixed;right:22px;bottom:26px;z-index:1500;
+  background:var(--surface);border:1px solid var(--border2);color:var(--text);
+  padding:10px 14px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+  opacity:0;pointer-events:none;transform:translateY(12px);transition:all .25s;
+}
+.to-top.show{opacity:1;pointer-events:auto;transform:translateY(0);}
 
 /* ── FOOTER ── */
 footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 28px;}
@@ -700,6 +770,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
+
 <!-- CURSOR -->
 <div class="cursor" id="cur"></div>
 <div class="cursor-ring" id="curRing"></div>
@@ -775,6 +847,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
         </div>
         <div class="trust-text"><strong>2,400+ businesses</strong> trust HatodNow daily</div>
       </div>
+      <div class="hero-kpis">
+        <div class="kpi-card"><div class="kpi-val">98%</div><div class="kpi-lbl">On-time rate</div></div>
+        <div class="kpi-card"><div class="kpi-val">60 sec</div><div class="kpi-lbl">Avg. dispatch</div></div>
+        <div class="kpi-card"><div class="kpi-val">24h</div><div class="kpi-lbl">COD remittance</div></div>
+      </div>
     </div>
 
     <div class="hero-visual">
@@ -828,6 +905,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
         </div>
       </div>
     </div>
+  </div>
+  <div class="scroll-cue" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+    <span class="scroll-dot"></span>
+    <span>Scroll</span>
   </div>
 </section>
 
@@ -1014,6 +1095,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
             <div class="dash-stat"><div class="dash-num">98%</div><div class="dash-lbl">On-Time Rate</div><div class="dash-delta">+3% from last</div></div>
             <div class="dash-stat"><div class="dash-num">P48K</div><div class="dash-lbl">COD Collected</div><div class="dash-delta">+P6K this month</div></div>
           </div>
+          <div class="dash-chips">
+            <div class="dash-chip">Peak hour: 4-6 PM</div>
+            <div class="dash-chip">Avg ETA: 22 min</div>
+            <div class="dash-chip">Top zone: Matina</div>
+          </div>
           <div class="mini-chart-wrap">
             <div class="mini-chart-lbl">Deliveries This Week</div>
             <svg class="stock-chart" viewBox="0 0 240 70" preserveAspectRatio="none" aria-hidden="true">
@@ -1054,6 +1140,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
         <div class="rider-stat"><div class="rider-stat-num">FLEX</div><div class="rider-stat-lbl">set your own hours</div></div>
         <div class="rider-stat"><div class="rider-stat-num">P0</div><div class="rider-stat-lbl">enrollment fee</div></div>
       </div>
+      <div class="rider-perks">
+        <div class="perk-chip">Free gear kit</div>
+        <div class="perk-chip">Weekly bonuses</div>
+        <div class="perk-chip">Fuel support</div>
+        <div class="perk-chip">Instant payouts</div>
+      </div>
       <button class="btn-apply" onclick="openModal('riderModal')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
         Apply Now — It's Free
@@ -1082,6 +1174,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
     <div class="center">
       <div class="sec-label">Social Proof</div>
       <div class="sec-title">WHAT DAVAO<br/>CUSTOMERS SAY</div>
+    </div>
+    <div class="testi-metrics">
+      <div class="testi-metric"><div class="testi-metric-val">4.9/5</div><div class="testi-metric-lbl">Average rating</div></div>
+      <div class="testi-metric"><div class="testi-metric-val">2,400+</div><div class="testi-metric-lbl">Business partners</div></div>
+      <div class="testi-metric"><div class="testi-metric-val">18 min</div><div class="testi-metric-lbl">Avg response time</div></div>
     </div>
     <div class="testi-grid">
       <div class="testi-card reveal">
@@ -1132,6 +1229,36 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
         <div class="price-period">high-volume operations</div>
         <ul class="price-feats"><li>Dedicated account manager</li><li>API integration</li><li>Shopee / Lazada sync</li><li>Custom SLA</li></ul>
         <a href="#" class="btn-price" onclick="openModal('partnerModal');return false;">Contact Sales</a>
+      </div>
+    </div>
+    <div class="pricing-note">No setup fees. Cancel anytime. Same-day delivery coverage across all Davao City zones.</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec faq-bg" id="faq">
+  <div class="sec-inner">
+    <div class="center">
+      <div class="sec-label">FAQ</div>
+      <div class="sec-title">FAST ANSWERS</div>
+      <p class="sec-sub">Everything you need to know before your next delivery.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" type="button"><span>How fast is dispatch?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a"><p>Most bookings are assigned in under 60 seconds, depending on rider availability in your zone.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button"><span>Do you support COD?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a"><p>Yes. We collect COD and remit to your account within 24 hours for business partners.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button"><span>Which areas are covered?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a"><p>We currently cover all major Davao City zones including Poblacion, Matina, Buhangin, and Toril.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button"><span>Can I schedule pickups?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a"><p>Yes. Set a pickup window and we will dispatch a rider at your chosen time.</p></div>
       </div>
     </div>
   </div>
@@ -1233,10 +1360,43 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
   <span id="toastMsg">Submitted successfully! We will reach out shortly.</span>
 </div>
 
+<button class="to-top" id="toTop" type="button">Back to top</button>
+
 <script>
 /* ── PAGE TRANSITIONS ── */
 window.addEventListener('load',()=>{document.body.classList.add('page-ready');});
 window.addEventListener('beforeunload',()=>{document.body.classList.remove('page-ready');document.body.classList.add('page-exit');});
+
+/* ── SCROLL PROGRESS + TO TOP ── */
+const scrollProgress=document.getElementById('scrollProgress');
+const toTopBtn=document.getElementById('toTop');
+function updateScrollUI(){
+  const docHeight=document.documentElement.scrollHeight-window.innerHeight;
+  const scY=window.scrollY||window.pageYOffset;
+  const pct=docHeight>0?(scY/docHeight)*100:0;
+  scrollProgress.style.width=pct+'%';
+  toTopBtn.classList.toggle('show',scY>500);
+}
+window.addEventListener('scroll',updateScrollUI,{passive:true});
+updateScrollUI();
+toTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ── NAV SCROLLSPY ── */
+const navLinks=Array.from(document.querySelectorAll('.nav-links a'));
+const sections=navLinks.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean);
+function updateActiveNav(){
+  const scY=window.scrollY||window.pageYOffset;
+  let activeId='';
+  sections.forEach(sec=>{
+    const top=sec.offsetTop-120;
+    if(scY>=top){activeId=sec.id;}
+  });
+  navLinks.forEach(link=>{
+    link.classList.toggle('active',link.getAttribute('href')==='#'+activeId);
+  });
+}
+window.addEventListener('scroll',updateActiveNav,{passive:true});
+updateActiveNav();
 
 /* ── CURSOR ── */
 const cur=document.getElementById('cur'),curRing=document.getElementById('curRing');
@@ -1316,6 +1476,16 @@ const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isInter
 document.querySelectorAll('.reveal,.how-card,.feat-card,.node-card,.testi-card,.price-card').forEach(el=>{
   if(!el.classList.contains('reveal'))el.classList.add('reveal');
   revObs.observe(el);
+});
+
+/* ── FAQ ── */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el=>el.classList.remove('open'));
+    if(!open){item.classList.add('open');}
+  });
 });
 
 /* ── MODALS ── */
