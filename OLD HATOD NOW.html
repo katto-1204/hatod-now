@@ -43,6 +43,11 @@
     padding: 0 40px;
     display: flex; align-items: center; justify-content: space-between;
     height: 68px;
+    transition: box-shadow 0.2s ease, background 0.2s ease;
+  }
+  nav.scrolled {
+    background: rgba(250,250,248,0.98);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   }
   .nav-logo {
     font-family: var(--font-display);
@@ -74,6 +79,7 @@
     display: flex; align-items: center;
     padding: 80px 40px;
   }
+  .parallax { will-change: transform; }
   .hero-bg-text {
     position: absolute;
     font-family: var(--font-display);
@@ -675,8 +681,8 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg-text">HATOD</div>
-  <div class="hero-accent-bar"></div>
+  <div class="hero-bg-text parallax" data-speed="0.18">HATOD</div>
+  <div class="hero-accent-bar parallax" data-speed="0.32"></div>
   <div class="hero-grid">
     <div>
       <div class="hero-tag">Now Live in Davao City</div>
@@ -1168,6 +1174,30 @@
     if (distEl) distEl.textContent = 'Distance (' + Math.round(dist) + ' km × ₱10)';
   }
   estimatePrice();
+
+  /* ── Parallax + Scroll Behavior ── */
+  const nav = document.querySelector('nav');
+  const parallaxItems = document.querySelectorAll('.parallax');
+  let latestScrollY = 0;
+  let ticking = false;
+
+  function applyScrollEffects() {
+    nav.classList.toggle('scrolled', latestScrollY > 10);
+    parallaxItems.forEach((el) => {
+      const speed = parseFloat(el.dataset.speed || '0.2');
+      el.style.transform = 'translate3d(0,' + (latestScrollY * speed) + 'px,0)';
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    latestScrollY = window.scrollY || window.pageYOffset;
+    if (!ticking) {
+      window.requestAnimationFrame(applyScrollEffects);
+      ticking = true;
+    }
+  });
+  applyScrollEffects();
 
   /* ── Scroll Fade Animations ── */
   const observer = new IntersectionObserver((entries) => {

@@ -31,7 +31,9 @@
   --sh-card:0 1px 0 rgba(255,255,255,.05),0 20px 60px rgba(0,0,0,.5);
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;cursor:default;}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;cursor:default;opacity:0;transition:opacity .6s ease;}
+body.page-ready{opacity:1;}
+body.page-exit{opacity:0;}
 
 /* ── CUSTOM CURSOR ── */
 .cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--orange);pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform .1s,width .3s,height .3s,opacity .3s;mix-blend-mode:screen;}
@@ -940,6 +942,76 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
         <div class="feat-title">Business Dashboard</div>
         <p class="feat-desc">Bulk bookings, analytics, COD tracking — all in one place. Built for scale.</p>
       </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Route Optimization','Riders are routed by live traffic and distance so deliveries arrive faster with fewer detours.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="feat-title">Route Optimization</div>
+        <p class="feat-desc">Live traffic routing shortens travel time and reduces missed turns.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Scheduled Pickups','Choose a pickup window and we dispatch a rider at the exact time you need.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feat-title">Scheduled Pickups</div>
+        <p class="feat-desc">Book ahead and lock in your preferred pickup time with zero calls.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Multi-Stop Drops','Send to multiple addresses in a single run with optimized drop order.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="6" rx="2"/><rect x="3" y="10" width="18" height="6" rx="2"/><rect x="3" y="17" width="18" height="4" rx="2"/></svg></div>
+        <div class="feat-title">Multi-Stop Drops</div>
+        <p class="feat-desc">Group multiple deliveries into one booking for faster dispatch.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Priority Support','Get fast support from a dedicated help line for urgent deliveries and business accounts.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M2 12h4"/><path d="M18 12h4"/></svg></div>
+        <div class="feat-title">Priority Support</div>
+        <p class="feat-desc">Dedicated assistance for time-sensitive deliveries and partner accounts.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Live ETA Updates','Minute-by-minute ETAs that automatically recalculate based on traffic and rider progress.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feat-title">Live ETA Updates</div>
+        <p class="feat-desc">Minute-by-minute ETAs update as your rider moves across Davao.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Contactless Drop-Off','Set safe drop instructions and get photo proof when the parcel is delivered.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <div class="feat-title">Contactless Drop-Off</div>
+        <p class="feat-desc">Set safe drop instructions and receive photo confirmation.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Pickup Photo Verification','Riders capture a pickup photo so you can verify item condition before transit.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="feat-title">Pickup Photo Verification</div>
+        <p class="feat-desc">Photo at pickup confirms item condition before delivery.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Return-to-Sender','If the recipient is unavailable, the rider automatically returns the parcel to you.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h13"/><path d="M8 7l-5 5 5 5"/><circle cx="18" cy="12" r="3"/></svg></div>
+        <div class="feat-title">Return-to-Sender</div>
+        <p class="feat-desc">Automatic return if a delivery cannot be completed.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Delivery Zone Controls','Choose service zones and hours so you only accept orders where you deliver.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="6" rx="2"/><rect x="3" y="10" width="18" height="6" rx="2"/><rect x="3" y="17" width="18" height="4" rx="2"/></svg></div>
+        <div class="feat-title">Delivery Zone Controls</div>
+        <p class="feat-desc">Set zones and hours to manage demand and coverage.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','In-App Chat','Message your rider directly without exposing personal phone numbers.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-8.5 8.5 8.38 8.38 0 01-4.7-1.4L3 20l1.4-4.8A8.38 8.38 0 013 11.5 8.38 8.38 0 0111.5 3a8.38 8.38 0 018.5 8.5z"/></svg></div>
+        <div class="feat-title">In-App Chat</div>
+        <p class="feat-desc">Secure rider messaging with no number sharing.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Smart Notifications','Get SMS, email, or in-app alerts at every delivery milestone.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+        <div class="feat-title">Smart Notifications</div>
+        <p class="feat-desc">Alerts for booking, pickup, en route, and delivery completion.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Parcel Insurance','Optional coverage protects high-value items with clear claims support.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="feat-title">Parcel Insurance</div>
+        <p class="feat-desc">Protect high-value items with optional coverage per delivery.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Temperature-Safe Handling','Insulated bags keep food and medicine safe through the ride.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4 4 0 105 0z"/><line x1="9" y1="6" x2="14" y2="6"/></svg></div>
+        <div class="feat-title">Temperature-Safe Handling</div>
+        <p class="feat-desc">Insulated handling for hot meals and sensitive items.</p>
+      </div>
+      <div class="feat-card reveal" onclick="openModal('featureModal','Rider Verification','All riders are ID-verified, with vehicle plate and profile checks.')">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="feat-title">Rider Verification</div>
+        <p class="feat-desc">Verified IDs and plate checks for every active rider.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1222,6 +1294,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 5% 2
 </div>
 
 <script>
+/* ── PAGE TRANSITIONS ── */
+window.addEventListener('load',()=>{document.body.classList.add('page-ready');});
+window.addEventListener('beforeunload',()=>{document.body.classList.remove('page-ready');document.body.classList.add('page-exit');});
+
 /* ── CURSOR ── */
 const cur=document.getElementById('cur'),curRing=document.getElementById('curRing');
 let mx=0,my=0,rx=0,ry=0;
