@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HATOD NOW — Fast Delivery in Davao City</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Space+Mono&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #F04E23;
+    --orange-dark: #C03A15;
+    --orange-light: #FFF1EC;
+    --black: #0F0E0D;
+    --white: #FAFAF8;
+    --gray-100: #F3F2EF;
+    --gray-200: #E4E3DE;
+    --gray-500: #888780;
+    --gray-800: #2C2C2A;
+    --green: #1D9E75;
+    --yellow: #EF9F27;
+    --radius: 12px;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,248,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 30px; letter-spacing: 1px;
+    color: var(--orange);
+  }
+  .nav-logo span { color: var(--black); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500; color: var(--gray-800);
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta {
+    background: var(--orange); color: var(--white);
+    border: none; border-radius: 8px;
+    padding: 11px 24px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: background .2s, transform .15s;
+    font-family: var(--font-body);
+    text-decoration: none; display: inline-block;
+  }
+  .nav-cta:hover { background: var(--orange-dark); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    background: var(--black);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center;
+    padding: 80px 40px;
+  }
+  .hero-bg-text {
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: clamp(140px, 22vw, 320px);
+    color: rgba(255,255,255,0.03);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    letter-spacing: 10px;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-accent-bar {
+    position: absolute;
+    top: 0; right: 0;
+    width: 6px; height: 100%;
+    background: var(--orange);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 64px; align-items: center;
+    max-width: 1200px; width: 100%; margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(240,78,35,0.15);
+    border: 1px solid rgba(240,78,35,0.3);
+    border-radius: 100px;
+    padding: 6px 16px; margin-bottom: 24px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1.5px;
+    color: var(--orange); text-transform: uppercase;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--orange);
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 9vw, 120px);
+    line-height: 0.88;
+    color: var(--white);
+    letter-spacing: 2px;
+  }
+  .hero h1 .accent { color: var(--orange); }
+  .hero-sub {
+    font-size: 18px; color: rgba(250,250,248,0.58);
+    margin: 28px 0 44px;
+    max-width: 480px;
+    line-height: 1.65;
+  }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--orange); color: var(--white);
+    border: 2px solid var(--orange);
+    border-radius: 10px; padding: 15px 34px;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    font-family: var(--font-body); text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--orange-dark); border-color: var(--orange-dark); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 2px solid rgba(255,255,255,0.28);
+    border-radius: 10px; padding: 15px 34px;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    font-family: var(--font-body); text-decoration: none;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+
+  /* HERO TRACKER CARD */
+  .hero-card {
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 22px;
+    padding: 28px;
+  }
+  .hero-card-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.2px;
+    color: var(--gray-500); text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .track-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .track-item:last-child { border-bottom: none; }
+  .track-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0; font-weight: 700;
+  }
+  .track-dot.done { background: rgba(29,158,117,0.18); color: #5DCAA5; }
+  .track-dot.active {
+    background: rgba(240,78,35,0.18); color: var(--orange);
+    animation: pulse-bg 1.8s ease-in-out infinite;
+  }
+  .track-dot.pending { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.2); }
+  @keyframes pulse-bg {
+    0%, 100% { background: rgba(240,78,35,0.18); }
+    50% { background: rgba(240,78,35,0.38); }
+  }
+  .track-info { flex: 1; }
+  .track-label { font-size: 14px; font-weight: 500; color: var(--white); }
+  .track-label.muted { color: rgba(250,250,248,0.28); }
+  .track-sub { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+  .track-sub.muted { color: rgba(255,255,255,0.15); }
+  .track-time { font-family: var(--font-mono); font-size: 11px; color: var(--gray-500); white-space: nowrap; }
+  .track-time.muted { color: rgba(255,255,255,0.15); }
+
+  .map-preview {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .map-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(240,78,35,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .map-text { flex: 1; }
+  .map-label { font-size: 13px; font-weight: 600; color: var(--white); }
+  .map-sub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+  .eta-pill {
+    background: rgba(29,158,117,0.18);
+    color: #5DCAA5;
+    font-size: 12px; font-weight: 600;
+    padding: 5px 12px; border-radius: 100px;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  /* TRUST BAR */
+  .trust-bar {
+    background: var(--orange);
+    padding: 18px 40px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .trust-item {
+    font-size: 13px; font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.3px;
+    display: flex; align-items: center; gap: 7px;
+    white-space: nowrap;
+  }
+  .trust-item strong { color: var(--white); }
+
+  /* SECTIONS */
+  section { padding: 88px 40px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+    color: var(--orange); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5.5vw, 68px);
+    line-height: 0.95; letter-spacing: 1px;
+    margin-bottom: 18px;
+  }
+  .section-sub {
+    font-size: 17px; color: var(--gray-500);
+    max-width: 520px; line-height: 1.65;
+    margin-bottom: 52px;
+  }
+
+  /* HOW IT WORKS */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gray-200);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+  }
+  .how-step {
+    background: var(--white);
+    padding: 36px 26px;
+    position: relative;
+  }
+  .how-step:hover { background: var(--gray-100); }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 72px; line-height: 1;
+    color: var(--gray-200);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .step-icon { font-size: 30px; margin-bottom: 18px; display: block; }
+  .step-title { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+  .step-desc { font-size: 14px; color: var(--gray-500); line-height: 1.55; }
+  .step-connector {
+    position: absolute; right: -16px; top: 50%;
+    transform: translateY(-50%);
+    width: 30px; height: 30px;
+    background: var(--orange); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 13px; z-index: 3;
+    font-weight: 700;
+  }
+
+  /* FEATURES */
+  .features-section { background: var(--black); }
+  .features-section .section-title { color: var(--white); }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .feature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 30px;
+    transition: border-color .25s, background .25s;
+    cursor: default;
+  }
+  .feature-card:hover {
+    border-color: rgba(240,78,35,0.45);
+    background: rgba(240,78,35,0.05);
+  }
+  .feature-icon {
+    width: 50px; height: 50px; border-radius: 13px;
+    background: rgba(240,78,35,0.14);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 23px; margin-bottom: 22px;
+  }
+  .feature-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+  .feature-desc { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
+
+  /* ESTIMATOR */
+  .estimator-section { background: var(--gray-100); }
+  .estimator-card {
+    background: var(--white);
+    border-radius: 22px;
+    padding: 44px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 48px;
+    align-items: start;
+    border: 1px solid var(--gray-200);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .est-group { margin-bottom: 18px; }
+  .est-group label {
+    display: block; font-size: 11px; font-weight: 700;
+    color: var(--gray-500); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+  .est-group input, .est-group select {
+    width: 100%; padding: 13px 16px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 9px; font-size: 15px;
+    font-family: var(--font-body);
+    outline: none; transition: border-color .2s;
+    background: var(--white); color: var(--black);
+  }
+  .est-group input:focus, .est-group select:focus { border-color: var(--orange); }
+  .calc-btn {
+    width: 100%; padding: 16px;
+    background: var(--orange); color: var(--white);
+    border: none; border-radius: 10px;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    font-family: var(--font-body); margin-top: 4px;
+  }
+  .calc-btn:hover { background: var(--orange-dark); transform: translateY(-1px); }
+  .price-display {
+    background: var(--black); border-radius: 18px; padding: 36px 28px;
+    text-align: center; position: sticky; top: 100px;
+  }
+  .price-display-label {
+    font-size: 11px; color: var(--gray-500); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .price-display-amount {
+    font-family: var(--font-display);
+    font-size: 84px; color: var(--orange); line-height: 1;
+    margin-bottom: 6px;
+  }
+  .price-display-unit { font-size: 13px; color: var(--gray-500); margin-bottom: 28px; }
+  .price-breakdown { text-align: left; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 22px; }
+  .breakdown-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: var(--gray-500); margin-bottom: 10px;
+  }
+  .breakdown-row.total {
+    font-size: 15px; font-weight: 600; color: var(--white);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 12px; margin-top: 4px;
+  }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .price-card {
+    border: 1.5px solid var(--gray-200);
+    border-radius: 22px; padding: 38px 30px;
+    position: relative;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .price-card:hover { transform: translateY(-5px); border-color: var(--orange); }
+  .price-card.popular {
+    border-color: var(--orange);
+    background: var(--orange-light);
+  }
+  .popular-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--orange); color: var(--white);
+    font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+    padding: 5px 18px; border-radius: 100px;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .price-name {
+    font-size: 12px; font-weight: 700; color: var(--gray-500);
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .price-amount {
+    font-family: var(--font-display);
+    font-size: 58px; line-height: 1;
+    color: var(--black); margin-bottom: 4px;
+  }
+  .price-unit { font-size: 13px; color: var(--gray-500); margin-bottom: 28px; }
+  .price-features { list-style: none; margin-bottom: 32px; }
+  .price-features li {
+    font-size: 14px; color: var(--gray-800);
+    padding: 9px 0; border-bottom: 1px solid var(--gray-200);
+    display: flex; gap: 9px; align-items: flex-start; line-height: 1.4;
+  }
+  .price-features li:last-child { border-bottom: none; }
+  .price-features li::before { content: '✓'; color: var(--green); font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+  .price-btn {
+    width: 100%; padding: 15px;
+    border-radius: 10px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all .2s; font-family: var(--font-body);
+    border: 2px solid var(--orange);
+  }
+  .price-btn.filled { background: var(--orange); color: var(--white); }
+  .price-btn.filled:hover { background: var(--orange-dark); }
+  .price-btn.ghost { background: transparent; color: var(--orange); }
+  .price-btn.ghost:hover { background: var(--orange); color: var(--white); }
+
+  /* RIDER SECTION */
+  .rider-section { background: var(--black); position: relative; overflow: hidden; }
+  .rider-section .section-title { color: var(--white); }
+  .rider-section .section-sub { color: var(--gray-500); }
+  .rider-bg-shape {
+    position: absolute; right: -80px; top: 0; bottom: 0;
+    width: 50%;
+    background: var(--orange);
+    clip-path: polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%);
+    opacity: 0.06;
+    pointer-events: none;
+  }
+  .rider-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: start;
+    position: relative; z-index: 2;
+  }
+  .rider-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px; margin-top: 36px;
+  }
+  .rider-stat {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 22px;
+  }
+  .rider-stat-num {
+    font-family: var(--font-display);
+    font-size: 38px; color: var(--orange); line-height: 1; margin-bottom: 6px;
+  }
+  .rider-stat-label { font-size: 13px; color: var(--gray-500); }
+  .rider-form {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 22px; padding: 38px;
+  }
+  .rider-form-title {
+    font-size: 12px; font-weight: 700; color: var(--white);
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 26px;
+  }
+  .rform-group { margin-bottom: 18px; }
+  .rform-group label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: rgba(250,250,248,0.55); margin-bottom: 7px;
+  }
+  .rform-group input, .rform-group select {
+    width: 100%; padding: 13px 16px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 9px; color: var(--white);
+    font-size: 15px; font-family: var(--font-body);
+    outline: none; transition: border-color .2s;
+  }
+  .rform-group input::placeholder { color: rgba(255,255,255,0.25); }
+  .rform-group input:focus, .rform-group select:focus { border-color: var(--orange); }
+  .rform-group select option { background: #1a1a18; }
+  .submit-btn {
+    width: 100%; padding: 16px;
+    background: var(--orange); color: var(--white);
+    border: none; border-radius: 10px;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    font-family: var(--font-body); margin-top: 6px;
+  }
+  .submit-btn:hover { background: var(--orange-dark); transform: translateY(-1px); }
+
+  /* TESTIMONIALS */
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  }
+  .testimonial-card {
+    background: var(--gray-100);
+    border-radius: 18px; padding: 30px;
+    transition: transform .2s;
+  }
+  .testimonial-card:hover { transform: translateY(-3px); }
+  .stars { color: var(--yellow); font-size: 15px; margin-bottom: 18px; letter-spacing: 2px; }
+  .testimonial-text {
+    font-size: 15px; color: var(--gray-800); line-height: 1.65;
+    margin-bottom: 22px; font-style: italic;
+  }
+  .testimonial-author { display: flex; align-items: center; gap: 11px; }
+  .author-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: white; flex-shrink: 0;
+  }
+  .author-name { font-size: 14px; font-weight: 600; color: var(--black); }
+  .author-role { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+  /* BUSINESS SECTION */
+  .business-section { background: var(--gray-100); }
+  .business-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .biz-features { list-style: none; margin: 24px 0 36px; }
+  .biz-features li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; color: var(--gray-800); padding: 12px 0;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .biz-features li:last-child { border-bottom: none; }
+  .biz-icon {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: rgba(240,78,35,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0; margin-top: 2px;
+  }
+  .biz-metrics {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .biz-metric {
+    background: var(--white); border-radius: 14px; padding: 24px;
+    border: 1px solid var(--gray-200);
+  }
+  .biz-metric-num {
+    font-family: var(--font-display);
+    font-size: 44px; color: var(--orange); line-height: 1; margin-bottom: 6px;
+  }
+  .biz-metric-label { font-size: 13px; color: var(--gray-500); }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--orange); text-align: center;
+    padding: 110px 40px;
+    position: relative; overflow: hidden;
+  }
+  .final-cta-bg {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px,
+      transparent 1px, transparent 40px
+    );
+  }
+  .final-cta .section-title {
+    color: var(--white); position: relative; z-index: 1;
+    font-size: clamp(52px, 7.5vw, 100px);
+    margin-bottom: 18px;
+  }
+  .final-cta p {
+    color: rgba(255,255,255,0.72); font-size: 19px; margin-bottom: 44px;
+    position: relative; z-index: 1;
+  }
+  .btn-white {
+    background: var(--white); color: var(--orange);
+    border: none; border-radius: 12px;
+    padding: 20px 52px; font-size: 18px; font-weight: 700;
+    cursor: pointer; transition: all .2s; font-family: var(--font-body);
+    text-decoration: none; display: inline-block;
+    position: relative; z-index: 1;
+  }
+  .btn-white:hover { background: var(--black); color: var(--white); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    padding: 52px 40px 36px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 40px; margin-bottom: 48px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 28px; color: var(--orange); margin-bottom: 12px;
+    display: block;
+  }
+  .footer-tagline { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+  .footer-col-title {
+    font-size: 11px; font-weight: 700; color: var(--white);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px;
+  }
+  .footer-links-col { display: flex; flex-direction: column; gap: 10px; }
+  .footer-links-col a {
+    font-size: 14px; color: var(--gray-500); text-decoration: none; transition: color .2s;
+  }
+  .footer-links-col a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 24px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .footer-copy { font-size: 12px; color: var(--gray-500); }
+  .footer-made { font-size: 12px; color: var(--gray-500); }
+  .footer-made span { color: var(--orange); }
+
+  /* SCROLL ANIMATIONS */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-card { display: none; }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .estimator-card { grid-template-columns: 1fr; }
+    .rider-inner { grid-template-columns: 1fr; }
+    .business-inner { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 64px 20px; }
+    .trust-bar { padding: 16px 20px; gap: 18px; }
+    .how-grid, .features-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .hero { padding: 60px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .rider-stats { grid-template-columns: 1fr 1fr; }
+    .biz-metrics { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 24px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-logo">HATOD<span>NOW</span></div>
+  <div class="nav-links">
+    <a href="#how">How it Works</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#business">For Business</a>
+    <a href="#riders">Ride With Us</a>
+  </div>
+  <a href="#book" class="nav-cta">Book Delivery</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-text">HATOD</div>
+  <div class="hero-accent-bar"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="hero-tag">Now Live in Davao City</div>
+      <h1>
+        DELIVER<br/>
+        <span class="accent">FASTER.</span><br/>
+        TRACK<br/>
+        LIVE.
+      </h1>
+      <p class="hero-sub">Book riders instantly, track parcels in real-time, and get proof of delivery — all in one tap. Serving Davao City.</p>
+      <div class="hero-btns">
+        <a href="#book" class="btn-primary">📦 Book a Delivery</a>
+        <a href="#riders" class="btn-outline">🏍️ Become a Rider</a>
+      </div>
+    </div>
+
+    <!-- LIVE TRACKER CARD -->
+    <div class="hero-card">
+      <div class="hero-card-title">Live Tracking — Order #HN-4821</div>
+
+      <div class="track-item">
+        <div class="track-dot done">✓</div>
+        <div class="track-info">
+          <div class="track-label">Order Confirmed</div>
+          <div class="track-sub">SM Davao, Quimpo Blvd</div>
+        </div>
+        <div class="track-time">2:04 PM</div>
+      </div>
+
+      <div class="track-item">
+        <div class="track-dot done">✓</div>
+        <div class="track-info">
+          <div class="track-label">Rider Assigned</div>
+          <div class="track-sub">Kuya Mark · Honda Click 125</div>
+        </div>
+        <div class="track-time">2:08 PM</div>
+      </div>
+
+      <div class="track-item">
+        <div class="track-dot active">●</div>
+        <div class="track-info">
+          <div class="track-label" style="color:var(--orange);">In Transit</div>
+          <div class="track-sub">1.2 km from dropoff</div>
+        </div>
+        <div class="track-time" style="color:var(--orange);">Now</div>
+      </div>
+
+      <div class="track-item">
+        <div class="track-dot pending">○</div>
+        <div class="track-info">
+          <div class="track-label muted">Delivered</div>
+          <div class="track-sub muted">Awaiting completion</div>
+        </div>
+        <div class="track-time muted">—</div>
+      </div>
+
+      <div class="map-preview">
+        <div class="map-icon">📍</div>
+        <div class="map-text">
+          <div class="map-label">Ulas, Davao City</div>
+          <div class="map-sub">Rider is approaching</div>
+        </div>
+        <div class="eta-pill">~3 min</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item">🛍️ <strong>Online Sellers</strong></div>
+  <div class="trust-item">🍜 <strong>Restaurants</strong></div>
+  <div class="trust-item">💊 <strong>Pharmacies</strong></div>
+  <div class="trust-item">🌸 <strong>Flower Shops</strong></div>
+  <div class="trust-item">🔧 <strong>Hardware Stores</strong></div>
+  <div class="trust-item">📦 <strong>Small Businesses</strong></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-inner">
+    <div class="section-tag">Simple Process</div>
+    <div class="section-title">How It Works</div>
+    <div class="section-sub">From booking to doorstep in minutes — no calls, no waiting.</div>
+    <div class="how-grid">
+      <div class="how-step">
+        <span class="step-num">01</span>
+        <span class="step-icon">📝</span>
+        <div class="step-title">Book Pickup</div>
+        <div class="step-desc">Enter pickup and dropoff addresses, parcel size, weight, and preferred schedule.</div>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="how-step">
+        <span class="step-num">02</span>
+        <span class="step-icon">🏍️</span>
+        <div class="step-title">Rider Assigned</div>
+        <div class="step-desc">Our smart engine auto-assigns the nearest available rider in under 60 seconds.</div>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="how-step">
+        <span class="step-num">03</span>
+        <span class="step-icon">📡</span>
+        <div class="step-title">Track Live</div>
+        <div class="step-desc">Watch your rider on the map in real-time. Always know exactly where your parcel is.</div>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="how-step">
+        <span class="step-num">04</span>
+        <span class="step-icon">✅</span>
+        <div class="step-title">Delivered</div>
+        <div class="step-desc">Photo and digital signature proof of delivery sent instantly when it arrives.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-inner">
+    <div class="section-tag">Why Hatod Now</div>
+    <div class="section-title">Built for<br/>Davao Businesses</div>
+    <div class="section-sub" style="color:var(--gray-500);">Everything you need to run reliable same-day delivery — nothing you don't.</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <div class="feature-title">Real-Time GPS Tracking</div>
+        <div class="feature-desc">Know exactly where your parcel is at all times. Live map updates every 10 seconds, straight to your phone.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Auto Rider Assignment</div>
+        <div class="feature-desc">Our smart engine finds and assigns the nearest available rider in under 60 seconds — no manual matching needed.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📸</div>
+        <div class="feature-title">Proof of Delivery</div>
+        <div class="feature-desc">Photo capture and digital signature at the door. Every delivery is dispute-proof and timestamped.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💵</div>
+        <div class="feature-title">Cash on Delivery (COD)</div>
+        <div class="feature-desc">We collect payments safely on behalf of sellers. Full COD remittance reports every payout cycle.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Business Dashboard</div>
+        <div class="feature-desc">Track all deliveries, live status, revenue, and rider performance from one clean admin panel.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <div class="feature-title">Instant Notifications</div>
+        <div class="feature-desc">SMS and push alerts for every milestone — booking confirmed, rider assigned, parcel delivered.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE ESTIMATOR -->
+<section class="estimator-section" id="book">
+  <div class="section-inner">
+    <div class="section-tag">Transparent Pricing</div>
+    <div class="section-title">Get Instant Quote</div>
+    <div class="section-sub">No hidden fees. What you see is what you pay — before you even book.</div>
+
+    <div class="estimator-card">
+      <div>
+        <div class="est-group">
+          <label>Pickup Location</label>
+          <input type="text" placeholder="e.g. SM Davao, Quimpo Blvd" id="pickup"/>
+        </div>
+        <div class="est-group">
+          <label>Dropoff Location</label>
+          <input type="text" placeholder="e.g. Matina Town Square, Davao City" id="dropoff"/>
+        </div>
+        <div class="form-row">
+          <div class="est-group">
+            <label>Parcel Size</label>
+            <select id="size" onchange="estimatePrice()">
+              <option value="small">Small (docs, snacks, meds)</option>
+              <option value="medium">Medium (shoebox, 1–2kg)</option>
+              <option value="large">Large (2–5kg package)</option>
+            </select>
+          </div>
+          <div class="est-group">
+            <label>Distance (km)</label>
+            <input type="number" id="distance" value="3" min="1" max="50" placeholder="KM" oninput="estimatePrice()"/>
+          </div>
+        </div>
+        <div class="est-group" style="margin-bottom:0;">
+          <label>Schedule</label>
+          <select id="schedule" onchange="estimatePrice()">
+            <option value="now">Book Now (ASAP)</option>
+            <option value="later">Schedule Later</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="estimatePrice()" style="margin-top:20px;">Calculate My Price</button>
+      </div>
+
+      <div class="price-display">
+        <div class="price-display-label">Estimated Total</div>
+        <div class="price-display-amount" id="price-amt">₱79</div>
+        <div class="price-display-unit">for your delivery</div>
+        <div class="price-breakdown">
+          <div class="breakdown-row"><span>Base fare</span><span id="b-base">₱49</span></div>
+          <div class="breakdown-row"><span>Distance (3 km × ₱10)</span><span id="b-dist">₱30</span></div>
+          <div class="breakdown-row"><span>Size surcharge</span><span id="b-size">₱0</span></div>
+          <div class="breakdown-row total"><span>Total</span><span id="b-total">₱79</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING PLANS -->
+<section id="pricing">
+  <div class="section-inner">
+    <div class="section-tag">Plans</div>
+    <div class="section-title">Simple, Honest Rates</div>
+    <div class="section-sub">Start with single drops. Scale up as your business grows.</div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Per Drop</div>
+        <div class="price-amount">₱49</div>
+        <div class="price-unit">base + ₱10/km extra</div>
+        <ul class="price-features">
+          <li>Single deliveries</li>
+          <li>Same-day pickup</li>
+          <li>Live GPS tracking</li>
+          <li>Proof of delivery</li>
+          <li>SMS notifications</li>
+        </ul>
+        <button class="price-btn ghost" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Book Now</button>
+      </div>
+
+      <div class="price-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="price-name">Business</div>
+        <div class="price-amount">₱39</div>
+        <div class="price-unit">per drop · 20+ daily volume</div>
+        <ul class="price-features">
+          <li>Volume discount pricing</li>
+          <li>Dedicated riders for your area</li>
+          <li>COD collection & remittance</li>
+          <li>Business analytics dashboard</li>
+          <li>Bulk booking support</li>
+          <li>Priority customer support</li>
+        </ul>
+        <button class="price-btn filled" onclick="document.getElementById('business').scrollIntoView({behavior:'smooth'})">Partner With Us</button>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">Enterprise</div>
+        <div class="price-amount">₱29</div>
+        <div class="price-unit">per drop · custom volume</div>
+        <ul class="price-features">
+          <li>Custom negotiated rates</li>
+          <li>Fleet of dedicated riders</li>
+          <li>Shopee / Lazada integration</li>
+          <li>White-label tracking page</li>
+          <li>ERP / API access</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <button class="price-btn ghost">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR BUSINESS -->
+<section class="business-section" id="business">
+  <div class="section-inner">
+    <div class="business-inner">
+      <div>
+        <div class="section-tag">For Businesses</div>
+        <div class="section-title">Need Multiple<br/>Deliveries Daily?</div>
+        <p style="font-size:16px;color:var(--gray-500);line-height:1.65;margin-bottom:8px;">Whether you're an online seller with 20 orders a day or a pharmacy with urgent meds — Hatod Now scales with you.</p>
+        <ul class="biz-features">
+          <li><div class="biz-icon">📦</div><div><strong>Bulk booking</strong> — schedule multiple drops in one go from your dashboard</div></li>
+          <li><div class="biz-icon">🏍️</div><div><strong>Dedicated riders</strong> — same trusted riders for your routes every day</div></li>
+          <li><div class="biz-icon">💵</div><div><strong>COD remittance reports</strong> — full cash collection tracking and daily remittance</div></li>
+          <li><div class="biz-icon">📊</div><div><strong>Delivery analytics</strong> — on-time rate, average ETA, and volume trends</div></li>
+          <li><div class="biz-icon">🔗</div><div><strong>Platform integrations</strong> — Shopee, Lazada, WooCommerce, and custom APIs</div></li>
+        </ul>
+        <a href="mailto:partners@hatodnow.ph" class="btn-primary">Partner With Us →</a>
+      </div>
+      <div class="biz-metrics">
+        <div class="biz-metric">
+          <div class="biz-metric-num">₱48K</div>
+          <div class="biz-metric-label">potential monthly revenue at 20 drops/day with just a few riders</div>
+        </div>
+        <div class="biz-metric">
+          <div class="biz-metric-num">60s</div>
+          <div class="biz-metric-label">average time from booking to rider assignment</div>
+        </div>
+        <div class="biz-metric">
+          <div class="biz-metric-num">3×</div>
+          <div class="biz-metric-label">free deliveries for new business partners on sign-up</div>
+        </div>
+        <div class="biz-metric">
+          <div class="biz-metric-num">24h</div>
+          <div class="biz-metric-label">COD remittance payout turnaround for business accounts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RIDER SECTION -->
+<section class="rider-section" id="riders">
+  <div class="rider-bg-shape"></div>
+  <div class="section-inner">
+    <div class="rider-inner">
+      <div>
+        <div class="section-tag">Join the Team</div>
+        <div class="section-title">Earn Daily<br/>as a Rider</div>
+        <p class="section-sub">Use your motorcycle to earn flexible income in Davao City. More bookings, faster payouts — on your schedule.</p>
+        <div class="rider-stats">
+          <div class="rider-stat">
+            <div class="rider-stat-num">₱800+</div>
+            <div class="rider-stat-label">avg daily earnings</div>
+          </div>
+          <div class="rider-stat">
+            <div class="rider-stat-num">24h</div>
+            <div class="rider-stat-label">payout turnaround</div>
+          </div>
+          <div class="rider-stat">
+            <div class="rider-stat-num">Flex</div>
+            <div class="rider-stat-label">set your own hours</div>
+          </div>
+          <div class="rider-stat">
+            <div class="rider-stat-num">₱0</div>
+            <div class="rider-stat-label">enrollment fee</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rider-form">
+        <div class="rider-form-title">Apply as Rider</div>
+        <div class="rform-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Juan dela Cruz"/>
+        </div>
+        <div class="rform-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+63 9XX XXX XXXX"/>
+        </div>
+        <div class="rform-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="juan@email.com"/>
+        </div>
+        <div class="rform-group">
+          <label>Vehicle Type</label>
+          <select>
+            <option>Motorcycle (Habal-habal)</option>
+            <option>Scooter / Underbones</option>
+            <option>Tricycle</option>
+          </select>
+        </div>
+        <div class="rform-group">
+          <label>Area of Operation</label>
+          <select>
+            <option>Davao City – Downtown / Poblacion</option>
+            <option>Davao City – Matina / Talomo</option>
+            <option>Davao City – Buhangin / Agdao</option>
+            <option>Davao City – Toril / Calinan</option>
+            <option>Davao City – All Areas</option>
+          </select>
+        </div>
+        <button class="submit-btn">Submit Application 🏍️</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="section-inner">
+    <div class="section-tag">Social Proof</div>
+    <div class="section-title">What Davao<br/>Customers Say</div>
+    <div class="section-sub">Real feedback from real businesses in Davao City.</div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"Super bilis ng delivery! Na-deliver ang aking Shopee orders within the hour. Grabe ang tracking — alam ko kung nasaan na ang rider every minute."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">MR</div>
+          <div>
+            <div class="author-name">Maria Reyes</div>
+            <div class="author-role">Online Seller · Buhangin, Davao</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"Game changer for our flower shop. Same-day delivery across Davao with photo proof. Our customers love it and we finally have zero delivery complaints."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">JB</div>
+          <div>
+            <div class="author-name">Jay Buenaventura</div>
+            <div class="author-role">Flower Shop Owner · Agdao</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"We use Hatod Now for urgent pharmacy deliveries. The COD collection is seamless and the remittance is always on time. Highly recommend for any Davao business."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">LC</div>
+          <div>
+            <div class="author-name">Liza Canlas</div>
+            <div class="author-role">Pharmacy Manager · Toril</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="final-cta-bg"></div>
+  <div class="section-title">Need Delivery<br/>Today?</div>
+  <p>Book in 30 seconds. Rider dispatched in 60.</p>
+  <a href="#book" class="btn-white">Book Now — It's Fast 🚀</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">HATOD NOW</span>
+      <div class="footer-tagline">Fast, reliable same-day delivery in Davao City. Built for sellers, businesses, and anyone who needs it now.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <div class="footer-links-col">
+        <a href="#book">Book Delivery</a>
+        <a href="#business">Business Partnership</a>
+        <a href="#riders">Become a Rider</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <div class="footer-links-col">
+        <a href="#">About Us</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <div class="footer-links-col">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Hatod Now · Davao City, Philippines · All rights reserved</div>
+    <div class="footer-made">Delivering Davao, <span>one parcel at a time</span></div>
+  </div>
+</footer>
+
+<script>
+  /* ── Price Estimator ── */
+  function estimatePrice() {
+    const dist = Math.max(1, parseFloat(document.getElementById('distance').value) || 3);
+    const size = document.getElementById('size').value;
+    const base = 49;
+    const distCharge = Math.round(dist * 10);
+    const sizeCharge = size === 'medium' ? 20 : size === 'large' ? 50 : 0;
+    const total = base + distCharge + sizeCharge;
+
+    document.getElementById('price-amt').textContent = '₱' + total;
+    document.getElementById('b-base').textContent = '₱' + base;
+    document.getElementById('b-dist').textContent = '₱' + distCharge;
+    document.getElementById('b-size').textContent = '₱' + sizeCharge;
+    document.getElementById('b-total').textContent = '₱' + total;
+
+    const distEl = document.getElementById('b-dist').previousElementSibling;
+    if (distEl) distEl.textContent = 'Distance (' + Math.round(dist) + ' km × ₱10)';
+  }
+  estimatePrice();
+
+  /* ── Scroll Fade Animations ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) { el.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card, .how-step, .price-card, .testimonial-card, .biz-metric, .rider-stat').forEach(el => {
+    el.classList.add('fade-up');
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
